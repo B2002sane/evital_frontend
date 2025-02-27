@@ -2,6 +2,7 @@
   .card-body.dashboard-card {
     padding: 18px;
     padding-bottom: 20px;
+
   }
 }
 
@@ -29,3 +30,21 @@
   height: 8px;
   border-radius: 50%;
 }
+#card{
+  background-color: #058789;
+  margin-bottom: 30px;
+  height: 200px;
+}
+#msg{
+  font-size: 30px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  color: white;
+  text-shadow: 4px 4px 0px red;
+  font-family: Arial, sans-serif;
+  margin-left: 20em;
+  margin-top: 50px;
+  white-space: nowrap;
+}
+

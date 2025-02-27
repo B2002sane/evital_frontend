@@ -22,7 +22,7 @@ export class AnalyticsChartComponent {
     this.chartOptions = {
       chart: {
         type: 'line',
-        height: 340,
+        height: 300,
         toolbar: {
           show: false
         },

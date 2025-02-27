@@ -22,7 +22,7 @@ export class MonthlyBarChartComponent implements OnInit {
     document.querySelector('.chart-income.week')?.classList.add('active');
     this.chartOptions = {
       chart: {
-        height: 450,
+        height: 400,
         type: 'area',
         toolbar: {
           show: false
@@ -32,7 +32,7 @@ export class MonthlyBarChartComponent implements OnInit {
       dataLabels: {
         enabled: false
       },
-      colors: ['#1677ff', '#0050b3'],
+      colors: ['#058789', '#058789'],
       series: [
         {
           name: 'Page Views',

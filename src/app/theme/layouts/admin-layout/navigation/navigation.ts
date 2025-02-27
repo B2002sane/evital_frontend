@@ -21,13 +21,13 @@ export interface NavigationItem {
 export const NavigationItems: NavigationItem[] = [
   {
     id: 'dashboard',
-    title: 'Dashboard',
+    title: '',
     type: 'group',
     icon: 'icon-navigation',
     children: [
       {
         id: 'default',
-        title: 'Default',
+        title: 'Dashboard',
         type: 'item',
         classes: 'nav-item',
         url: '/dashboard/default',
@@ -38,91 +38,71 @@ export const NavigationItems: NavigationItem[] = [
   },
   {
     id: 'authentication',
-    title: 'Authentication',
+    title: '',
     type: 'group',
     icon: 'icon-navigation',
     children: [
-      {
-        id: 'login',
-        title: 'Login',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/login',
-        icon: 'login',
-        target: true,
-        breadcrumbs: false
-      },
-      {
-        id: 'register',
-        title: 'Register',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/register',
-        icon: 'profile',
-        target: true,
-        breadcrumbs: false
-      }
+      // {
+      //   id: 'login',
+      //   title: 'Login',
+      //   type: 'item',
+      //   classes: 'nav-item',
+      //   url: '/login',
+      //   icon: 'login',
+      //   target: true,
+      //   breadcrumbs: false
+      // },
+      // {
+      //   id: 'register',
+      //   title: 'Register',
+      //   type: 'item',
+      //   classes: 'nav-item',
+      //   url: '/register',
+      //   icon: 'profile',
+      //   target: true,
+      //   breadcrumbs: false
+      // }
     ]
   },
-  {
-    id: 'utilities',
-    title: 'UI Components',
-    type: 'group',
-    icon: 'icon-navigation',
-    children: [
-      {
-        id: 'typography',
-        title: 'Typography',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/typography',
-        icon: 'font-size'
-      },
-      {
-        id: 'color',
-        title: 'Colors',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/color',
-        icon: 'bg-colors'
-      },
-      {
-        id: 'tabler',
-        title: 'Tabler',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'https://ant.design/components/icon',
-        icon: 'ant-design',
-        target: true,
-        external: true
-      }
-    ]
-  },
+  // {
+  //   id: 'utilities',
+  //   title: '',
+  //   type: 'group',
+  //   icon: 'icon-navigation',
+  //   children: [
+  //     {
+  //       id: 'typography',
+  //       title: 'Personnels Medicals',
+  //       type: 'item',
+  //       classes: 'nav-item',
+  //       url: '/typography',
+  //       icon: 'font-size'
+  //     },
+  //     {
+  //       id: 'color',
+  //       title: 'Patient',
+  //       type: 'item',
+  //       classes: 'nav-item',
+  //       url: '/color',
+  //       icon: 'bg-colors'
+  //     },
+  //   ]
+  // },
 
-  {
-    id: 'other',
-    title: 'Other',
-    type: 'group',
-    icon: 'icon-navigation',
-    children: [
-      {
-        id: 'sample-page',
-        title: 'Sample Page',
-        type: 'item',
-        url: '/sample-page',
-        classes: 'nav-item',
-        icon: 'chrome'
-      },
-      {
-        id: 'document',
-        title: 'Document',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'https://codedthemes.gitbook.io/mantis-angular/',
-        icon: 'question',
-        target: true,
-        external: true
-      }
-    ]
-  }
+  // {
+  //   id: 'other',
+  //   title: '',
+  //   type: 'group',
+  //   icon: 'icon-navigation',
+  //   children: [
+  //     {
+  //       id: 'sample-page',
+  //       title: 'Gestion Chambres',
+  //       type: 'item',
+  //       url: '/sample-page',
+  //       classes: 'nav-item',
+  //       icon: 'chrome'
+  //     }
+  //   ]
+  // }
 ];

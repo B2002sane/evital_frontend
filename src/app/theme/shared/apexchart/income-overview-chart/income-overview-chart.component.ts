@@ -1,9 +1,7 @@
-// angular import
-import { Component, OnInit, viewChild } from '@angular/core';
+// Angular import
+import { Component, OnInit, ViewChild } from '@angular/core';
 
-// project import
-
-// third party
+// Third-party import
 import { NgApexchartsModule, ChartComponent, ApexOptions } from 'ng-apexcharts';
 import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
 
@@ -11,62 +9,46 @@ import { CardComponent } from 'src/app/theme/shared/components/card/card.compone
   selector: 'app-income-overview-chart',
   imports: [CardComponent, NgApexchartsModule],
   templateUrl: './income-overview-chart.component.html',
-  styleUrl: './income-overview-chart.component.scss'
+  styleUrls: ['./income-overview-chart.component.scss'] // Correction ici (styleUrl → styleUrls)
 })
 export class IncomeOverviewChartComponent implements OnInit {
-  // public props
-  chart = viewChild.required<ChartComponent>('chart');
+  // ViewChild pour accéder au composant Chart
+  @ViewChild('chart') chart!: ChartComponent;
+  
+  // Options du diagramme
   chartOptions!: Partial<ApexOptions>;
 
-  // life cycle hook
+  // Life cycle hook
   ngOnInit() {
     this.chartOptions = {
       chart: {
-        type: 'bar',
-        height: 365,
+        type: 'donut',
+        height: 300,
         toolbar: {
           show: false
         },
         background: 'transparent'
       },
+      labels: ['Femme', 'Homme', 'Enfants'], // Catégories
+      series: [45, 35, 20], // Données fictives
+      colors: ['#FF4560', '#008FFB', '#00E396'], // Couleurs personnalisées
+
       plotOptions: {
-        bar: {
-          columnWidth: '45%',
-          borderRadius: 4
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      series: [
-        {
-          data: [80, 95, 70, 42, 65, 55, 78]
-        }
-      ],
-      stroke: {
-        curve: 'smooth',
-        width: 2
-      },
-      xaxis: {
-        categories: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-        axisBorder: {
-          show: false
-        },
-        axisTicks: {
-          show: false
-        },
-        labels: {
-          style: {
-            colors: ['#8c8c8c', '#8c8c8c', '#8c8c8c', '#8c8c8c', '#8c8c8c', '#8c8c8c', '#8c8c8c']
+        pie: {
+          donut: {
+            size: '60%' // Ajuste la taille du donut
           }
         }
       },
-      yaxis: {
-        show: false
+      dataLabels: {
+        enabled: true, // Active les labels sur les tranches
+        style: {
+          fontSize: '14px',
+          fontWeight: 'bold'
+        }
       },
-      colors: ['#5cdbd3'],
-      grid: {
-        show: false
+      legend: {
+        position: 'bottom'
       },
       tooltip: {
         theme: 'light'
