@@ -19,49 +19,89 @@ export interface NavigationItem {
 }
 
 export const NavigationItems: NavigationItem[] = [
-  {
-    id: 'dashboard',
-    title: '',
-    type: 'group',
-    icon: 'icon-navigation',
-    children: [
-      {
-        id: 'default',
-        title: 'Dashboard',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/dashboard/default',
-        icon: 'dashboard',
-        breadcrumbs: false
-      }
-    ]
-  },
+  // {
+  //   id: 'dashboard',
+  //   title: '',
+  //   type: 'group',
+  //   icon: 'icon-navigation',
+  //   children: [
+  //     {
+  //       id: 'default',
+  //       title: 'Dashboard',
+  //       type: 'item',
+  //       classes: 'nav-item',
+  //       url: '/dashboard/default',
+  //       icon: 'dashboard',
+  //       breadcrumbs: false
+  //     }
+  //   ]
+  // },
   {
     id: 'authentication',
     title: '',
     type: 'group',
     icon: 'icon-navigation',
     children: [
-      // {
-      //   id: 'login',
-      //   title: 'Login',
-      //   type: 'item',
-      //   classes: 'nav-item',
-      //   url: '/login',
-      //   icon: 'login',
-      //   target: true,
-      //   breadcrumbs: false
-      // },
-      // {
-      //   id: 'register',
-      //   title: 'Register',
-      //   type: 'item',
-      //   classes: 'nav-item',
-      //   url: '/register',
-      //   icon: 'profile',
-      //   target: true,
-      //   breadcrumbs: false
-      // }
+      {
+        id: 'dashboard',
+        title: 'Dashboard',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/dashboard/default',
+       // icon: 'dashboard',
+        target: true,
+        breadcrumbs: false
+      },
+      {
+        id: 'register',
+        title: 'Personnels Medical',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/register',
+       // icon: 'profile',
+        target: true,
+        breadcrumbs: false
+      },
+      {
+        id: 'register',
+        title: 'Patient',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/sample-page',
+      //  icon: 'profile',
+        target: true,
+        breadcrumbs: false
+      },
+      {
+        id: 'register',
+        title: 'Gestion Chambres',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/register',
+       // icon: 'profile',
+        target: true,
+        breadcrumbs: false
+      },
+      {
+        id: 'register',
+        title: 'Rendez-vous',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/register',
+       // icon: 'profile',
+        target: true,
+        breadcrumbs: false
+      },
+      {
+        id: 'register',
+        title: 'Don de Sang',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/register',
+       // icon: 'profile',
+        target: true,
+        breadcrumbs: false
+      }
     ]
   },
   // {

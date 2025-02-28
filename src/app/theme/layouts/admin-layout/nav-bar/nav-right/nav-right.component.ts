@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 // project import
 
 // icon
-import { IconService, IconDirective } from '@ant-design/icons-angular';
+import { IconService } from '@ant-design/icons-angular';
 import {
   BellOutline,
   SettingOutline,
@@ -30,7 +30,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 
 @Component({
   selector: 'app-nav-right',
-  imports: [IconDirective, RouterModule, NgScrollbarModule, NgbNavModule, NgbDropdownModule],
+  imports: [RouterModule, NgScrollbarModule, NgbNavModule, NgbDropdownModule],
   templateUrl: './nav-right.component.html',
   styleUrls: ['./nav-right.component.scss']
 })
