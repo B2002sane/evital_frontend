@@ -1,84 +1,77 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    margin: 0;
-    padding: 0;
-}
 
-header {
-    background-color: #ffffff11;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    //box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-}
-
-nav ul li {
-    margin: 0;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-}
+/* ajout-patient.component.scss */
 
 .add-patient {
-    margin-left: auto;
-    background-color: #007BFF;
-    color: white;
+  
+    box-shadow: 0 4px 10px rgba(2, 2 ,0, 0.1);
+
+
+  }
+  
+  .container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    width: 100%;
+  }
+  
+  h2 {
+    color: #058789;
+    text-align: left;
+    margin-bottom: 30px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 25px;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    margin-bottom: 25px;
+  }
+  
+  button {
+    width: 20%;
+    background: #058789;
     border: none;
-    padding: 10px 20px;
+    padding: 12px;
+    color: white;
+    font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
-}
+    transition: 0.3s;
+    margin: 25px;
+  }
 
-main {
-    padding: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 30px;
-}
-
-.patient-card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.patient-card img {
-    border-radius: 50%;
-}
-
-.patient-info {
-    flex: 1;
-}
-
-.patient-info h3 {
-    margin: 0;
-    font-size: 18px;
-}
-
-.patient-info p {
-    margin: 5px 0;
-    color: #555;
-}
-
-.patient-room {
-    background-color: #e0f7fa;
-    color: #00798c;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-weight: bold;
-}
+  button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  .annuler {
+    background: #dc3546b6;
+  }
+  
+  .error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  

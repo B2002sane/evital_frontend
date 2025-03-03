@@ -11,5 +11,5 @@ import { SpinnerComponent } from './theme/shared/components/spinner/spinner.comp
 })
 export class AppComponent {
   // public props
-  title = 'mantis-free-version';
+  title = 'evital-sante';
 }

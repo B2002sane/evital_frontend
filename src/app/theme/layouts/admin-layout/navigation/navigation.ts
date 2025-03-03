@@ -48,59 +48,47 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         classes: 'nav-item',
         url: '/dashboard/default',
-       // icon: 'dashboard',
-        target: true,
-        breadcrumbs: false
+       
       },
       {
-        id: 'register',
+        id: 'dashboard',
         title: 'Personnels Medical',
         type: 'item',
         classes: 'nav-item',
-        url: '/register',
-       // icon: 'profile',
-        target: true,
-        breadcrumbs: false
+        url: '/personnel-medical',
+       
       },
       {
-        id: 'register',
+        id: 'dashboard',
         title: 'Patient',
         type: 'item',
         classes: 'nav-item',
-        url: '/sample-page',
-      //  icon: 'profile',
-        target: true,
-        breadcrumbs: false
+        url: '/patient',
+    
       },
       {
         id: 'register',
         title: 'Gestion Chambres',
         type: 'item',
         classes: 'nav-item',
-        url: '/register',
-       // icon: 'profile',
-        target: true,
-        breadcrumbs: false
+        url: '/typography',
+     
       },
       {
-        id: 'register',
+        id: 'dashboard',
         title: 'Rendez-vous',
         type: 'item',
         classes: 'nav-item',
-        url: '/register',
-       // icon: 'profile',
-        target: true,
-        breadcrumbs: false
+        url: '/rendez-vous',
+     
       },
       {
         id: 'register',
         title: 'Don de Sang',
         type: 'item',
         classes: 'nav-item',
-        url: '/register',
-       // icon: 'profile',
-        target: true,
-        breadcrumbs: false
+        url: '/dashboard-donneur',
+       
       }
     ]
   },
