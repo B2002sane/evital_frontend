@@ -5,6 +5,11 @@ import { RouterModule, Routes } from '@angular/router';
 // Project import
 import { AdminComponent } from './theme/layouts/admin-layout/admin-layout.component';
 import { GuestLayoutComponent } from './theme/layouts/guest-layout/guest-layout.component';
+import { LoginGuard } from './guard/login.guard';
+import { LoginDonneurGuard } from './guard/login-donneur.guard';
+
+
+
 
 const routes: Routes = [
   {
@@ -18,7 +23,8 @@ const routes: Routes = [
       },
       {
         path: 'dashboard/default',
-        loadComponent: () => import('./demo/dashboard/default/default.component').then((c) => c.DefaultComponent)
+        loadComponent: () => import('./demo/dashboard/default/default.component').then((c) => c.DefaultComponent),
+        canActivate: [LoginGuard]
       },
       {
         path: 'typography',
@@ -30,32 +36,48 @@ const routes: Routes = [
       },
       {
         path: 'sample-page',
-        loadComponent: () => import('./demo/others/sample-page/sample-page.component').then((c) => c.SamplePageComponent)
+        loadComponent: () => import('./demo/others/sample-page/sample-page.component').then((c) => c.SamplePageComponent),
+        canActivate: [LoginGuard]
+      },
+      {
+        path: 'sample-page/:id',
+        loadComponent: () => import('./demo/others/sample-page/sample-page.component').then((c) => c.SamplePageComponent),
+        canActivate: [LoginGuard]
       },
       {
         path: 'rendez-vous',
         loadComponent: () =>
-          import('./demo/rendez-vous/rendez-vous.component').then((c) => c.RendezVousComponent)
+          import('./demo/rendez-vous/rendez-vous.component').then((c) => c.RendezVousComponent),
+        canActivate: [LoginGuard]
       },
       {
         path: 'patient',
         loadComponent: () =>
-          import('./demo/patient/patient.component').then((c) => c.PatientComponent)
+          import('./demo/patient/patient.component').then((c) => c.PatientComponent),
+        canActivate: [LoginGuard]
       },
       {
         path: 'personnel-medical',
         loadComponent: () =>
-          import('./demo/personnel-medical/personnel-medical.component').then((c) => c.PersonnelMedicalComponent)
+          import('./demo/personnel-medical/personnel-medical.component').then((c) => c.PersonnelMedicalComponent),
+        canActivate: [LoginGuard]
       },
       {
         path: 'ajout-personnel',
         loadComponent: () =>
+          import('./demo/others/ajout-personnel/ajout-personnel.component').then((c) => c.AjoutPersonnelComponent),
+        canActivate: [LoginGuard]
+      },
+      {
+        path: 'edit/personnel/:id',
+        loadComponent: () =>
           import('./demo/others/ajout-personnel/ajout-personnel.component').then((c) => c.AjoutPersonnelComponent)
       },
       {
-        path: 'edit/personnel:id',
+        path: 'demande-don',
         loadComponent: () =>
-          import('./demo/others/ajout-personnel/ajout-personnel.component').then((c) => c.AjoutPersonnelComponent)
+          import('./demo/demande-don/demande-don.component').then((c) => c.DemandeDonComponent),
+        canActivate: [LoginGuard]
       }
     ]
   },
@@ -75,7 +97,14 @@ const routes: Routes = [
       {
         path: 'dashboard-donneur',
         loadComponent: () =>
-          import('./demo/dashboard-donneur/dashboard-donneur.component').then((c) => c.DashboardDonneurComponent)
+          import('./demo/dashboard-donneur/dashboard-donneur.component').then((c) => c.DashboardDonneurComponent),
+        canActivate: [LoginDonneurGuard]
+      },
+      {
+        path: 'historique-donneur',
+        loadComponent: () =>
+          import('./demo/historique-dons/historique-dons.component').then((c) => c.HistoriqueDonsComponent),
+        canActivate: [LoginDonneurGuard]
       },
       {
         path: 'login-donneur',

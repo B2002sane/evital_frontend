@@ -3,6 +3,23 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+
+interface Statistiques {
+  total_patients: number;
+  total_donneurs: number;
+  total_medecins: number;
+  total_medecins_chef: number;
+  total_utilisateurs: number;
+}
+
+interface ApiResponse {
+  status: boolean;
+  message: string;
+  statistiques: Statistiques;
+  utilisateurs: Utilisateur[];
+  data:Utilisateur;
+}
+
 export interface Utilisateur {
   id?: string;
   nom: string;
@@ -21,6 +38,7 @@ export interface Utilisateur {
   poids?: number;
   codeRfid?: string;
   archive?: boolean;
+  
 }
 
 @Injectable({
@@ -32,8 +50,8 @@ export class UtilisateurService {
   constructor(private http: HttpClient) {}
 
   /** Récupérer tous les utilisateurs */
-  getUtilisateurs(): Observable<Utilisateur[]> {
-    return this.http.get<Utilisateur[]>(this.apiUrl);
+  getUtilisateurs(): Observable<ApiResponse[]> {
+    return this.http.get<ApiResponse[]>(this.apiUrl);
   }
 
 
@@ -58,6 +76,14 @@ getUtilisateursParRoles(roles: string[]): Observable<Utilisateur[]> {
   getUtilisateurById(id: string): Observable<Utilisateur> {
     return this.http.get<Utilisateur>(`${this.apiUrl}/${id}`);
   }
+
+
+
+/** Récupérer un utilisateur par ID */
+getUtilisateurByIdEdit(id: string): Observable<ApiResponse> {
+  return this.http.get<ApiResponse>(`${this.apiUrl}/${id}`);
+}
+
 
   /** Créer un nouvel utilisateur */
   createUtilisateur(utilisateur: Utilisateur): Observable<Utilisateur> {

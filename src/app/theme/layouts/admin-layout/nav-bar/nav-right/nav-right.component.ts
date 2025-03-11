@@ -1,6 +1,7 @@
 // angular import
 import { Component, inject, input, output } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { LoginService } from 'src/app/service/login.service';
 
 // project import
 
@@ -23,7 +24,8 @@ import {
   CommentOutline,
   UnorderedListOutline,
   ArrowRightOutline,
-  GithubOutline
+  GithubOutline,
+  
 } from '@ant-design/icons-angular/icons';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgScrollbarModule } from 'ngx-scrollbar';
@@ -35,6 +37,9 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
   styleUrls: ['./nav-right.component.scss']
 })
 export class NavRightComponent {
+
+  currentUser: { id: string; nom: string; prenom: string; role: string } | null = null;
+
   private iconService = inject(IconService);
 
   styleSelectorToggle = input<boolean>();
@@ -42,7 +47,7 @@ export class NavRightComponent {
   windowWidth: number;
   screenFull: boolean = true;
 
-  constructor() {
+  constructor(private LoginService :LoginService) {
     this.windowWidth = window.innerWidth;
     this.iconService.addIcon(
       ...[
@@ -108,4 +113,16 @@ export class NavRightComponent {
       title: 'History'
     }
   ];
+  ngOnInit(): void {
+    this.loadCurrentUser();
+  }
+
+
+
+  loadCurrentUser(): void {
+    // Utilisez la méthode getCurrentUser() pour récupérer l'utilisateur actuel
+    this.currentUser = this.LoginService.getCurrentUser();
+    console.log('Utilisateur actuel:', this.currentUser);
+  }
+
 }

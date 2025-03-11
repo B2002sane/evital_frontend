@@ -2,6 +2,9 @@
 import { Component, OnInit, inject, output } from '@angular/core';
 import { CommonModule, Location, LocationStrategy } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
+
+LoginService
 
 // project import
 import { NavigationItem, NavigationItems } from '../navigation';
@@ -23,6 +26,7 @@ import {
   AntDesignOutline
 } from '@ant-design/icons-angular/icons';
 import { NgScrollbarModule } from 'ngx-scrollbar';
+import { LoginService } from 'src/app/service/login.service';
 
 @Component({
   selector: 'app-nav-content',
@@ -48,7 +52,7 @@ export class NavContentComponent implements OnInit {
   windowWidth = window.innerWidth;
 
   // Constructor
-  constructor() {
+  constructor(private LoginService:LoginService, private router:Router ) {
     this.iconService.addIcon(
       ...[
         DashboardOutline,
@@ -102,4 +106,23 @@ export class NavContentComponent implements OnInit {
       this.NavCollapsedMob.emit();
     }
   }
+
+
+  onLogout() {
+    this.LoginService.logout().subscribe({
+      next: (response) => {
+        if (response.status) {
+          console.log('Déconnexion réussie', response.message);
+          this.router.navigate(['/login']);
+          
+        } else {
+          console.log('Erreur lors de la déconnexion', response.message);
+        }
+      },
+      error: (error) => {
+        console.error('Erreur de déconnexion', error);
+      }
+    });
+  }
+
 }

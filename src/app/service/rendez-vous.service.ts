@@ -4,16 +4,30 @@ import { Observable } from 'rxjs';
 
 
 
+export interface Patient {
+  nom: string;
+  prenom: string;
+  // Ajoutez d'autres propriétés du patient si nécessaire
+}
+
+export interface Medecin {
+  nom: string;
+  prenom: string;
+  // Ajoutez d'autres propriétés du médecin si nécessaire
+}
+
 
 
 export interface RendezVous {
-  _id?: string;
+  id?: string;
   patientId: string;
   medecinId: string;
   date: string;
   motif: string;
   status?: 'en_attente' | 'confirme' | 'annule' | 'termine';
   creePar?: 'patient' | 'medecin';
+  patient?: Patient;
+  medecin?: Medecin;
 }
 
 
@@ -109,6 +123,6 @@ export class RendezVousService {
    * Cette méthode permet d'accepter une demande de rendez-vous.
    */
   acceptRequest(id: string): Observable<{ rendezVous: RendezVous, message: string }> {
-    return this.http.put<{ rendezVous: RendezVous, message: string }>(`${this.apiUrl}/${id}/accepter`, {});
+    return this.http.patch<{ rendezVous: RendezVous, message: string }>(`${this.apiUrl}/${id}/accepter`, {});
   }
 }

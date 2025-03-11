@@ -1,59 +1,75 @@
 <div class="login-container">
-    <div class="login-box">
-      <div class="logo">
-        <img src="assets/images/logo0.png" alt="Evital-Clinik Logo">
+  <div class="login-box">
+    <div class="logo">
+      <img src="assets/images/logo0.png" alt="Evital-Clinik Logo">
+    </div>
+    <h2>SE CONNECTER</h2>
+    <p>Sauvez des vies grâce au don de sang</p>
+
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+      <label class="label">Email</label>
+      <div class="input-group">
+        <input 
+          type="email" 
+          name="email" 
+          placeholder="Email" 
+          [(ngModel)]="email"
+          (blur)="validateEmail()"
+          #emailField="ngModel"
+          required
+          [class.input-error]="emailError"
+        >
       </div>
-      <h2>SE CONNECTER</h2>
-      <p>Sauvez des vies grâce au don de sang</p>
+      <p class="error-message" *ngIf="emailError">{{ emailError }}</p>
+
+      <label class="label1">Mot de passe</label>
+      <div class="input-group">
+        <input 
+          [type]="showPassword ? 'text' : 'password'"
+          name="password"
+          placeholder="Mot de passe"
+          [(ngModel)]="password"
+          (blur)="validatePassword()"
+          required
+          minlength="8"
+          [class.input-error]="passwordError"
+        >
+        <span class="password-toggle" (click)="togglePasswordVisibility()">👁️</span>
+      </div>
+      <p class="error-message" *ngIf="passwordError">{{ passwordError }}</p>
   
-      <form #loginForm="ngForm">
-        <label class="label">Email</label>
-        <div class="input-group">
-          <input 
-            type="email" 
-            name="email" 
-            placeholder="Email" 
-            required 
-            [(ngModel)]="email"
-            #emailField="ngModel"
-          >
-        </div>
+      <!-- Affichage des tentatives échouées -->
+      <div *ngIf="failedAttempts > 0 && failedAttempts < 3 && !isLocked" class="attempts-warning">
+        Attention: {{ failedAttempts }}/3 tentatives échouées
+      </div>
   
-        <label class="label1">Mot de passe</label>
-        <div class="input-group">
-          <input 
-            type="password" 
-            name="password"
-            placeholder="Password"
-            [(ngModel)]="password"
-            #passwordField="ngModel"
-            (input)="checkPassword()"
-            required
-            minlength="8"
-          >
-        </div>
-        <p class="error" *ngIf="password && password.length < 8">⚠️ Le mot de passe doit contenir au moins 8 caractères</p>
+      <!-- Affichage du message de verrouillage du compte -->
+      <div *ngIf="isLocked" class="locked-account-warning">
+        <p>Compte temporairement bloqué suite à trop de tentatives échouées.</p>
+        <p>Veuillez réessayer dans <span class="countdown">{{ remainingTime }}</span> secondes.</p>
+      </div>
   
-        <a href="#" class="create-account">Créer un compte</a>
+      <a href="#" class="create-account">Créer un compte</a>
   
-        <button class="btn" [disabled]="password.length < 8">CONNEXION</button>
+      <button class="btn" type="submit" [disabled]="!isFormValid() || isLoading || isLocked">
+        {{ isLoading ? 'Chargement...' : 'CONNEXION' }}
+      </button>
   
-        <button class="btn google-btn">
-          SE CONNECTER AVEC GOOGLE
-        </button>
-      </form>
-    </div>
-  
-    <div class="right-section">
-      <img id="logo1" src="assets/images/logo1.png" alt="Evital-Clinik Logo">
-      <div class="illustration">
-        <img src="assets/images/donneur.png" alt="Doctors">
-      </div><br>
-      <h3>VOTRE SANG A LE POUVOIR DE SAUVER DES VIES</h3>
-      <p>
-        Un don est un acte citoyen, solidaire et libre qui permet de répondre aux besoins quotidiens de manière bénévole.
-        Plus vous serez nombreux et réguliers à donner, plus nous pourrons aider ensemble chaque jour les patients qui en ont besoin.
-      </p>
-    </div>
+      <button class="btn google-btn">
+        SE CONNECTER AVEC GOOGLE
+      </button>
+    </form>
   </div>
-  
+
+  <div class="right-section">
+    <img id="logo1" src="assets/images/logo1.png" alt="Evital-Clinik Logo">
+    <div class="illustration">
+      <img src="assets/images/donneur.png" alt="Doctors">
+    </div><br>
+    <h3>VOTRE SANG A LE POUVOIR DE SAUVER DES VIES</h3>
+    <p>
+      Un don est un acte citoyen, solidaire et libre qui permet de répondre aux besoins quotidiens de manière bénévole.
+      Plus vous serez nombreux et réguliers à donner, plus nous pourrons aider ensemble chaque jour les patients qui en ont besoin.
+    </p>
+  </div>
+</div>

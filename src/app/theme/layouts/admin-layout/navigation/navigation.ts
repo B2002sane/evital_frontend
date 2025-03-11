@@ -46,6 +46,7 @@ export const NavigationItems: NavigationItem[] = [
         id: 'dashboard',
         title: 'Dashboard',
         type: 'item',
+        icon:'dashboard',
         classes: 'nav-item',
         url: '/dashboard/default',
        
@@ -54,6 +55,7 @@ export const NavigationItems: NavigationItem[] = [
         id: 'dashboard',
         title: 'Personnels Medical',
         type: 'item',
+        icon: 'profile',
         classes: 'nav-item',
         url: '/personnel-medical',
        
@@ -62,6 +64,7 @@ export const NavigationItems: NavigationItem[] = [
         id: 'dashboard',
         title: 'Patient',
         type: 'item',
+        icon: 'user',
         classes: 'nav-item',
         url: '/patient',
     
@@ -70,14 +73,16 @@ export const NavigationItems: NavigationItem[] = [
         id: 'register',
         title: 'Gestion Chambres',
         type: 'item',
+        icon: 'wallet',
         classes: 'nav-item',
-        url: '/typography',
+        url: '/dashboard-donneur',
      
       },
       {
         id: 'dashboard',
         title: 'Rendez-vous',
         type: 'item',
+        icon: 'bell',
         classes: 'nav-item',
         url: '/rendez-vous',
      
@@ -86,8 +91,9 @@ export const NavigationItems: NavigationItem[] = [
         id: 'register',
         title: 'Don de Sang',
         type: 'item',
+        icon:'login',
         classes: 'nav-item',
-        url: '/dashboard-donneur',
+        url: '/demande-don',
        
       }
     ]

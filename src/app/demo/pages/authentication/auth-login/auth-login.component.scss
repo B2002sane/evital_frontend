@@ -1,4 +1,4 @@
-.login-container {
+.connexion-container {
   background-color: #EBFCF4;
   min-height: 100vh;
   display: flex;
@@ -7,105 +7,67 @@
   padding: 0;
   margin: 0;
   width: 100%;
-  height: 100vh;
 }
 
-
-.login-card {
+.connexion-card {
   display: flex;
   width: 100%;
-  height: 100%;
-  max-width: 100%;
+  max-width: 1000px; /* Limiter la largeur maximale */
   background-color: white;
-  border-radius: px;
-  overflow: hidden;
-  box-shadow: none;
+  border-radius: 10px; /* Ajuster la bordure */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ajouter une ombre */
 }
 
 /* Partie formulaire */
-.login-form-container {
+.left-panel {
   padding: 40px;
-  width: 40%;
+  width: 50%; /* Ajuster la largeur */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 250px;
-  margin-top: -200px;
-}
-
-.logo-container {
-  margin-bottom: 40px;
 }
 
 .logo {
-  height: 300px;
-  margin-left: -300px;
-  margin-top: -100px;
+  margin-bottom: 40px;
+  text-align: center; /* Centrer le logo */
 }
 
-.header-text {
-  margin-bottom: 30px;
-}
-
-.title {
+h2 {
   color: #058789;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .subtitle {
   color: #666;
   font-size: 14px;
+  margin-bottom: 20px;
 }
 
 .form-group {
   margin-bottom: 20px;
 }
 
-.input-container {
-  position: relative;
-}
-
 .form-input {
-  width: 75%;
-  justify-content: center;
-  padding: 12px 15px 12px 40px;
+  width: 100%; /* Prendre toute la largeur */
+  padding: 12px 15px;
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 14px;
   outline: none;
 }
 
-.input-icon-left {
-  position: absolute;
-  left: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #999;
+.input-error {
+  border-color: red; /* Couleur de bordure pour erreur */
 }
 
-.input-icon-right {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #999;
-  cursor: pointer;
-}
-
-.forgot-password {
-  text-align: left;
-  margin-bottom: 20px;
-}
-
-.forgot-password-link {
-  color: #058789;
-  text-decoration: none;
-  font-size: 14px;
+.error-text {
+  color: red;
+  font-size: 12px;
 }
 
 .btn-submit {
-  width: 75%;
+  width: 100%; /* Prendre toute la largeur */
   background-color: #058789;
   color: white;
   border: none;
@@ -113,97 +75,42 @@
   border-radius: 5px;
   font-weight: bold;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin-top: 20px; /* Ajout d'espace en haut */
 }
 
-
-.btn-rfid {
-  width: 75%;
-  background-color: #f5f5f5;
-  color: #666;
-  border: 1px solid #ddd;
-  padding: 12px;
-  border-radius: 5px;
+.rid-text {
+  color: #058789;
+  text-decoration: none;
   font-size: 14px;
-  cursor: pointer;
+  text-align: center; /* Centrer le texte */
 }
 
 /* Partie image */
-.image-container {
-  width: 50%;
-  background-color: #EBFCF4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  height: 100%;
-}
-
-.image-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
+.right-panel {
+  width: 50%; /* Ajuster la largeur */
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 40px;
 }
 
-.image-border {
-  border-radius: 5px;
-  overflow: hidden;
-  padding: 10px;
-  width: 90%;
-  height: 90%;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.doctors-image {
+.right-panel img {
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: contain;
-}
-
-.decoration-plus {
-  position: absolute;
-  color: #16a086;
-  font-size: 24px;
-}
-
-.top-right {
-  top: 10px;
-  right: 20px;
-}
-
-.top-left {
-  top: 40px;
-  left: 40px;
-}
-
-.bottom-right {
-  bottom: 30px;
-  right: 50px;
 }
 
 /* Responsive styles */
 @media (max-width: 768px) {
-  .login-card {
+  .connexion-card {
     flex-direction: column;
   }
-  
-  .login-form-container,
-  .image-container {
+
+  .left-panel, .right-panel {
     width: 100%;
   }
-  
-  .login-form-container {
-    height: 100%;
-  }
-  
-  .image-container {
-    display: none;
+
+  .right-panel {
+    display: none; /* Cacher la partie image sur mobile */
   }
 }

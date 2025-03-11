@@ -1,0 +1,212 @@
+/* Styles généraux */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Bouton d'appel au don */
+  .don-btn {
+    background-color: #0a9396;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    float: right;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
+  }
+  
+  .don-btn:hover {
+    background-color: #077c7e;
+  }
+  
+  /* Section statistiques */
+  .stats {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+    gap: 20px;
+    clear: both;
+  }
+  
+  .stat-box {
+    flex: 1;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .stat-box span {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .stats .stat-box:nth-child(1) span {
+    color: #0077b6;
+  }
+  
+  .stats .stat-box:nth-child(2) span {
+    color: #e63946;
+  }
+  
+  .stats .stat-box:nth-child(3) span {
+    color: #2a9d8f;
+  }
+  
+  .stat-box p {
+    margin: 0;
+    color: #666;
+  }
+  
+  /* Titre de section */
+  h2 {
+    color: #0a9396;
+    margin: 30px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eaeaea;
+  }
+  
+  /* Tableau */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  th {
+    background-color: #0a9396;
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+  }
+  
+  td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eaeaea;
+  }
+  
+  tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  /* Style pour la cellule de statut */
+  .status {
+    border-radius: 15px;
+    padding: 5px 10px;
+    text-align: center;
+    font-weight: bold;
+    display: inline-block;
+    min-width: 80px;
+  }
+  
+  .accepted {
+    background-color: #e8f9f1;
+    color: #0a9396;
+  }
+  
+  /* Modal pour nouvelle demande */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 25px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .modal-header h3 {
+    margin: 0;
+    color: #0a9396;
+  }
+  
+  .close-btn {
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #999;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .form-group select, .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .submit-btn {
+    background-color: #0a9396;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+  }
+  
+  .submit-btn:hover {
+    background-color: #077c7e;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .stats {
+      flex-direction: column;
+    }
+    
+    .stat-box {
+      margin-bottom: 15px;
+    }
+    
+    table {
+      display: block;
+      overflow-x: auto;
+    }
+    
+    .don-btn {
+      float: none;
+      display: block;
+      width: 100%;
+    }
+  }

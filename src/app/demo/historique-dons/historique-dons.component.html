@@ -1,0 +1,45 @@
+<div class="container">
+    <!-- Profil Donneur -->
+    <div class="profile-card" *ngIf="currentUser">
+      <div class="profile-header">
+        <h2>Profils</h2>
+        <button class="modify-btn">Modifier</button>
+      </div>
+      <div class="profile-info">
+        <p><strong>Nom :</strong> {{ currentUser.nom }}</p>
+        <p><strong>Prénom :</strong> {{ currentUser.prenom }}</p>
+        <p><strong>Adresse :</strong> {{ currentUser.adresse }}</p>
+        <p><strong>Date naissance :</strong> {{ currentUser.dateNaissance }}</p>
+        <p><strong>Email :</strong> {{ currentUser.email }}</p>
+        <p><strong>Téléphone :</strong> {{ currentUser.telephone }}</p>
+        <p><strong>Matricule :</strong> {{ currentUser.matricule }}</p>
+        <p><strong>Groupe Sanguin :</strong> {{ currentUser.groupeSanguin }}</p>
+      </div>
+    </div>
+  
+    <!-- Historique des dons -->
+    <h2>Historique De Mes Dons</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Médecin</th>
+            <th>Type</th>
+            <th>Volume</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let don of historiqueDons">
+            <td>{{ don.date | date:'dd MMM yyyy' }}</td>
+            <td><a href="#">{{ don.medecin }}</a></td>
+            <td>{{ don.type }}</td>
+            <td>{{ don.volume }}ml</td>
+            <td><span class="status-valid">Valider</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

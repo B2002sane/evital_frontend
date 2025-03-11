@@ -147,6 +147,90 @@ p {
     margin: 0 auto;
 }
 
+
+
+/* Style général pour les messages d'erreur */
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    font-weight: 500;
+  }
+
+  
+  /* Style pour les champs d'entrée avec erreur */
+  .input-error {
+    border: 1px solid red;
+    background-color: #f8d7da;
+  }
+  
+  /* Style pour le message des tentatives échouées */
+  .attempts-warning {
+    color: #e6a700;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+  
+  /* Style pour le message de compte verrouillé */
+  .locked-account-warning {
+    color: red;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 10px;
+    border: 1px solid red;
+    background-color: #f8d7da;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .countdown {
+    font-weight: bold;
+    color: red;
+  }
+  
+  /* Style pour les messages d'erreur généraux */
+  .error-text {
+    color: #d9534f;
+    font-size: 13px;
+    margin-top: 5px;
+    font-weight: 500;
+  }
+  
+ 
+  
+
+
+
+
+
+
+
+
+
+.attempts-warning {
+    color: orange;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
+  .locked-account-warning {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
+  .countdown {
+    font-weight: bold;
+    color: red;
+  }
+  
+
+
+
+
+
+
 /* RESPONSIVE DESIGN */
 @media screen and (max-width: 1024px) {
     .login-box {
