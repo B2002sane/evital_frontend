@@ -1,0 +1,92 @@
+<div class="search-container">
+    <input
+      type="text"
+      placeholder="🔍 Recherche par n° chambre"
+      class="search-input"
+      [(ngModel)]="searchTerm"
+      (input)="filterChambres()">
+  </div>
+  
+  <header>
+    <nav>
+        <ul>
+          <li><a >Chambres Disponibles</a></li>
+          <li><a >Chambres Occupées</a></li>
+        </ul>
+      </nav>
+    <button class="add-patient" (click)="ouvrirModalAjoutChambre()">
+      + Ajouter Chambre
+    </button>
+  </header>
+  
+  <main>
+    <div *ngIf="chambres.length === 0" class="no-patient">
+      <p>Aucune chambre trouvée</p>
+    </div>
+    
+    
+    <div *ngFor="let chambre of paginatedChambres()" class="patient-card">
+      
+      
+      <div style="display: flex; align-items: center; margin-bottom: 25px;">
+        <div class="patient-info">
+  
+        <div class="chambre-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Structure de la chambre -->
+      <path d="M3 10.5V19h18v-8.5"></path>
+      <!-- Toit -->
+      <path d="M1 10.5L12 2l11 8.5"></path>
+      <!-- Lit -->
+      <rect x="7" y="13" width="10" height="6" rx="1"></rect>
+      <!-- Oreiller -->
+      <path d="M9 13v-1.5a1 1 0
+       0 1 1-1h4a1 1 0 0 1 1 1V13"></path>
+    </svg>
+  </div>
+          <h3>Chambre {{ chambre.numero }}</h3>
+          <p class="patient-age">{{ chambre.nombreLits }} lits</p>
+        </div>
+      </div>
+      <div style="align-items: center; gap: 15px;">
+        <button class="hospitaliser-btn">{{ compterPatientsChambres(chambre) }} patients</button>     
+         <div class="patient-actions">
+  
+         <div class="patient-actions">
+          
+    <!-- Bouton Voir détails -->
+    <button class="action-btn" (click)="voirDetailsChambre(chambre.id)" title="Voir détails">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+      </svg>
+    </button>
+  
+   
+    
+    <!-- Bouton Supprimer -->
+    <button class="action-btn" (click)="supprimerChambre(chambre.id, chambre)" title="Supprimer">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+      </svg>
+    </button>
+    
+   
+  </div>
+        </div>
+      </div>
+    </div>
+  
+  
+  </main>
+  
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">⬅</button>
+    <span *ngFor="let page of getPages(); let i = index"
+          (click)="goToPage(i + 1)"
+          [class.active]="currentPage === i + 1">
+      {{ i + 1 }}
+    </span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages()">➡</button>
+  </div>

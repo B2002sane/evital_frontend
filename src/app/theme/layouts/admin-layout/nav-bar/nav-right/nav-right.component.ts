@@ -1,7 +1,8 @@
 // angular import
 import { Component, inject, input, output } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { LoginService } from 'src/app/service/login.service';
+import { Route } from '@angular/router';
 
 // project import
 
@@ -47,7 +48,7 @@ export class NavRightComponent {
   windowWidth: number;
   screenFull: boolean = true;
 
-  constructor(private LoginService :LoginService) {
+  constructor(private LoginService :LoginService, private router:Router ) {
     this.windowWidth = window.innerWidth;
     this.iconService.addIcon(
       ...[
@@ -70,54 +71,30 @@ export class NavRightComponent {
         WalletOutline
       ]
     );
+    
   }
 
-  profile = [
-    {
-      icon: 'edit',
-      title: 'Edit Profile'
-    },
-    {
-      icon: 'user',
-      title: 'View Profile'
-    },
-    {
-      icon: 'profile',
-      title: 'Social Profile'
-    },
-    {
-      icon: 'wallet',
-      title: 'Billing'
-    }
-  ];
+  onLogout() {
+    this.LoginService.logout().subscribe({
+      next: (response) => {
+        if (response.status) {
+          console.log('Déconnexion réussie', response.message);
+          this.router.navigate(['/login']);
+          
+        } else {
+          console.log('Erreur lors de la déconnexion', response.message);
+        }
+      },
+      error: (error) => {
+        console.error('Erreur de déconnexion', error);
+      }
+    });
+  }
 
-  setting = [
-    {
-      icon: 'question-circle',
-      title: 'Support'
-    },
-    {
-      icon: 'user',
-      title: 'Account Settings'
-    },
-    {
-      icon: 'lock',
-      title: 'Privacy Center'
-    },
-    {
-      icon: 'comment',
-      title: 'Feedback'
-    },
-    {
-      icon: 'unordered-list',
-      title: 'History'
-    }
-  ];
+
   ngOnInit(): void {
     this.loadCurrentUser();
   }
-
-
 
   loadCurrentUser(): void {
     // Utilisez la méthode getCurrentUser() pour récupérer l'utilisateur actuel

@@ -19,7 +19,7 @@ export class PersonnelMedicalComponent implements OnInit {
   
   // Pagination
   currentPage: number = 1;
-  itemsPerPage: number = 5;
+  itemsPerPage: number = 8;
   totalPages: number = 1;
   
   // Filtrage
@@ -264,8 +264,6 @@ export class PersonnelMedicalComponent implements OnInit {
           <p><strong>Email:</strong> ${person.email || 'N/A'}</p>
           <p><strong>Téléphone:</strong> ${person.telephone || 'N/A'}</p>
           <p><strong>Adresse:</strong> ${person.adresse || 'N/A'}</p>
-          <p><strong>Date de naissance:</strong> ${person.dateNaissance || 'N/A'}</p>
-          <p><strong>Groupe sanguin:</strong> ${person.groupeSanguin || 'N/A'}</p>
           <p><strong>Fonction:</strong> ${person.role || 'N/A'}</p>
           ${person.photo ? `<img src="assets/images/user/avatar-2.jpg" alt="Photo de ${person.nom}" style="max-width: 100px; border-radius: 5px;">` : ''}
         </div>

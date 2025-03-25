@@ -11,6 +11,10 @@
       font-weight: 600;
     }
   }
+
+  .rendez-vous-container{
+    margin-top: 80px;
+  }
   
   .btn-attente {
     background-color: #056770;
@@ -98,7 +102,7 @@
   .rendez-vous-card {
     background-color: white;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 14px 14px 14px 14px rgba(0, 0, 0, 0.08);
     overflow: hidden;
     transition: transform 0.3s, box-shadow 0.3s;
   

@@ -19,6 +19,23 @@
     margin-bottom: 20px;
     transition: background-color 0.3s;
   }
+
+  .btn{
+
+    margin-left: 30px;
+  }
+  
+  .dons-btn {
+
+    background-color: #0a9396;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 20px;
+    font-size: 16px;
+    margin-right: 20px;
+
+  }
   
   .don-btn:hover {
     background-color: #077c7e;
@@ -87,12 +104,13 @@
     background-color: #0a9396;
     color: white;
     padding: 12px 15px;
-    text-align: left;
+    text-align: center;
   }
   
   td {
     padding: 12px 15px;
     border-bottom: 1px solid #eaeaea;
+    text-align: center;
   }
   
   tr:hover {
@@ -112,6 +130,11 @@
   .accepted {
     background-color: #e8f9f1;
     color: #0a9396;
+  }
+
+  .en_cours{
+    background-color: #e8f9f1;
+    color: #a9b409;
   }
   
   /* Modal pour nouvelle demande */
@@ -210,3 +233,4 @@
       width: 100%;
     }
   }
+  

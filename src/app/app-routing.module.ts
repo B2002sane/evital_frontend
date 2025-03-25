@@ -57,6 +57,12 @@ const routes: Routes = [
         canActivate: [LoginGuard]
       },
       {
+        path: 'patient-details/:id',
+        loadComponent: () =>
+          import('./demo/patient-details/patient-details.component').then((c) => c.PatientDetailsComponent),
+        canActivate: [LoginGuard]
+      },
+      {
         path: 'personnel-medical',
         loadComponent: () =>
           import('./demo/personnel-medical/personnel-medical.component').then((c) => c.PersonnelMedicalComponent),
@@ -72,6 +78,10 @@ const routes: Routes = [
         path: 'edit/personnel/:id',
         loadComponent: () =>
           import('./demo/others/ajout-personnel/ajout-personnel.component').then((c) => c.AjoutPersonnelComponent)
+      },
+      {
+        path: 'gestion-chambre',
+        loadComponent: () => import ('./demo/gestion-chambre/gestion-chambre.component').then((c) => c.GestionChambreComponent)
       },
       {
         path: 'demande-don',

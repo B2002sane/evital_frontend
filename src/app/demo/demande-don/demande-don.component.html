@@ -1,23 +1,28 @@
 <div class="container">
-    <button class="don-btn" (click)="ouvrirModalDemande()">Faire Un Appel Au Don</button>
-    
-    <div class="stats">
-      <div class="stat-box">
-        <span>10</span>
-        <p>Total Appels</p>
-      </div>
-      <div class="stat-box">
-        <span>2</span>
-        <p>Appels en cours</p>
-      </div>
-      <div class="stat-box">
-        <span>4</span>
-        <p>Total don</p>
-      </div>
+  <button class="don-btn" (click)="ouvrirModalDemande()">Faire Un Appel Au Don</button>
+
+  <div class="stats">
+    <div class="stat-box">
+      <span>{{ nombreTotalDemandes }}</span>
+      <p>Total Appels</p>
     </div>
-    
+    <div class="stat-box">
+      <span>{{ nombreDemandesEnCours }}</span>
+      <p>Appels en cours</p>
+    </div>
+    <div class="stat-box">
+      <span>{{ nombreDemandesAcceptees }}</span>
+      <p>Total don Accepté</p>
+    </div>
+  </div>
+
+  <div class="view-buttons">
+    <button class="dons-btn" [class.active]="vueActuelle === 'acceptees'" (click)="basculerVue('acceptees')">Demandes Acceptées</button>
+    <button class="dons-btn"  [class.active]="vueActuelle === 'en_cours'" (click)="basculerVue('en_cours')">Demandes En Cours</button>
+  </div>
+
+  <div *ngIf="vueActuelle === 'acceptees'">
     <h2>Demandes Acceptées</h2>
-    
     <table>
       <thead>
         <tr>
@@ -31,7 +36,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let demande of demandesAcceptees">
-          <td>{{ demande.dateDemande | date:'dd MMM yyyy' }}</td>
+          <td>{{ demande.created_at | date:'dd MMM yyyy' }}</td>
           <td>{{ demande.donneur.nom }}</td>
           <td>{{ demande.donneur.telephone }}</td>
           <td>{{ demande.donneur.email }}</td>
@@ -40,43 +45,67 @@
         </tr>
       </tbody>
     </table>
-    
-    <!-- Modal pour création de demande -->
-    <div class="modal" [ngStyle]="{'display': modalVisible ? 'block' : 'none'}">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>Créer un appel au don</h3>
-          <span class="close-btn" (click)="fermerModal()">&times;</span>
-        </div>
-        <form (ngSubmit)="soumettreNouvelleDemande()">
-          <div class="form-group">
-            <label for="groupeSanguin">Groupe sanguin requis</label>
-            <select id="groupeSanguin" [(ngModel)]="nouvelleDemande.groupeSanguin" name="groupeSanguin" required>
-              <option value="">Sélectionner un groupe sanguin</option>
-              <option value="A+">A+</option>
-              <option value="A-">A-</option>
-              <option value="B+">B+</option>
-              <option value="B-">B-</option>
-              <option value="AB+">AB+</option>
-              <option value="AB-">AB-</option>
-              <option value="O+">O+</option>
-              <option value="O-">O-</option>
-            </select>
-          </div>
-          <!-- <div class="form-group">
-            <label for="urgence">Niveau d'urgence</label>
-            <select id="urgence" [(ngModel)]="nouvelleDemande.urgence" name="urgence" required>
-              <option value="NORMAL">Normal</option>
-              <option value="URGENT">Urgent</option>
-              <option value="CRITIQUE">Critique</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="quantite">Quantité nécessaire (en unités)</label>
-            <input type="number" id="quantite" [(ngModel)]="nouvelleDemande.quantite" name="quantite" min="1" required>
-          </div> -->
-          <button type="submit" class="submit-btn">Créer l'appel au don</button>
-        </form>
+  </div>
+
+  <div *ngIf="vueActuelle === 'en_cours'">
+    <h2>Demandes En Cours</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Groupe Sanguin</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let demande of demandesEnCours">
+          <td>{{ demande.created_at | date:'dd MMM yyyy' }}</td>
+          <td>{{ demande.groupeSanguin }}</td>
+          <td><span class="status en_cours">En Cours</span></td>
+          <td class="actions">
+            <button class="btn btn-primary" (click)="modifierDemande(demande)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+              </svg>
+            </button>
+
+            <button class="btn btn-danger"  (click)="supprimerDemande(demande)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"  class="bi bi-trash3" viewBox="0 0 16 16">
+                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+              </svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal pour création de demande -->
+  <div class="modal" [ngStyle]="{'display': modalVisible ? 'block' : 'none'}">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>{{ isModification ? 'Modifier un appel au don' : 'Créer un appel au don' }}</h3>
+        <span class="close-btn" (click)="fermerModal()">&times;</span>
       </div>
+      <form (ngSubmit)="isModification ? soumettreModificationDemande() : soumettreNouvelleDemande()">
+        <div class="form-group">
+          <label for="groupeSanguin">Groupe sanguin requis</label>
+          <select id="groupeSanguin" [(ngModel)]="demandeEnCours.groupeSanguin" name="groupeSanguin" required>
+            <option value="">Sélectionner un groupe sanguin</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
+        </div>
+        <button type="submit" class="submit-btn">{{ isModification ? 'Modifier' : 'Créer' }}</button>
+      </form>
     </div>
   </div>
+</div>

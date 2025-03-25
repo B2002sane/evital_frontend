@@ -38,6 +38,7 @@ export interface Utilisateur {
   poids?: number;
   codeRfid?: string;
   archive?: boolean;
+  hospitalisation?:boolean;
   
 }
 

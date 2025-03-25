@@ -32,7 +32,7 @@
     "@typescript-eslint/utils": "^8.26.0",
     "apexcharts": "3.49.2",
     "bootstrap": "^5.3.3",
-    "ng-apexcharts": "1.11.0",
+    "ng-apexcharts": "^1.15.0",
     "ngx-scrollbar": "16.1.1",
     "rxjs": "~7.8.1",
     "sass": "^1.85.1",

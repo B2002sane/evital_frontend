@@ -1,25 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { UtilisateurService } from 'src/app/service/utilisateur.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 
-
-
 // project import
-//import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
+import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
 
 @Component({
   selector: 'app-sample-page',
   standalone: true,
-  imports: [CommonModule,  ReactiveFormsModule],
+  imports: [CommonModule, CardComponent, ReactiveFormsModule],
   templateUrl: './sample-page.component.html',
   styleUrls: ['./sample-page.component.scss']
 })
-
-
 export class SamplePageComponent implements OnInit {
   patientId: string | null = null;
   patientForm: FormGroup;
@@ -28,14 +23,44 @@ export class SamplePageComponent implements OnInit {
   isLoading: boolean = false;
   isEditMode: boolean = false;
   pageTitle: string = 'Ajout d\'un patient';
+  photoPreview: string | null = null;
+  photoFile: File | null = null;
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private utilisateurService: UtilisateurService,
     private router: Router,
     private route: ActivatedRoute
   ) {
-    this.patientForm = this.fb.group({
+    this.patientForm = this.createForm();
+  }
+
+  ngOnInit(): void {
+    // Déterminer si nous sommes en mode édition en vérifiant les paramètres de route
+    this.route.params.subscribe(params => {
+      this.patientId = params['id'];
+      if (this.patientId) {
+        this.isEditMode = true;
+        this.pageTitle = 'Modification d\'un patient';
+        this.loadPatientData(this.patientId);
+
+        // En mode édition, le mot de passe n'est pas requis
+        this.patientForm.get('password')?.clearValidators();
+        this.patientForm.get('password')?.updateValueAndValidity();
+      }
+    });
+
+    // Écoute les changements de genre pour désactiver la catégorie "Femme enceinte"
+    this.patientForm.get('genre')?.valueChanges.subscribe(value => {
+      this.isHomme = value === 'HOMME';
+      if (this.isHomme && this.patientForm.get('categorie')?.value === 'FEMME_ENCEINTE') {
+        this.patientForm.get('categorie')?.setValue('');
+      }
+    });
+  }
+
+  createForm(): FormGroup {
+    return this.fb.group({
       nom: ['', [Validators.required, Validators.minLength(2)]],
       prenom: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
@@ -48,34 +73,11 @@ export class SamplePageComponent implements OnInit {
       adresse: ['', Validators.required],
       photo: [''],
       role: ['PATIENT'],
-      password: ['password123']
-    });
-
-    // Écoute les changements de genre
-    this.patientForm.get('genre')?.valueChanges.subscribe(value => {
-      this.isHomme = value === 'HOMME';
+      password: ['', this.isEditMode ? [] : [Validators.required]]
     });
   }
 
-
-
-  ngOnInit(): void {
-    // Déterminer si nous sommes en mode édition en vérifiant les paramètres de route
-    this.route.params.subscribe(params => {
-      if (params['id']) {
-        this.patientId = params['id']; // Plus besoin de convertir en nombre avec +
-        this.isEditMode = true;
-        this.pageTitle = 'Modification d\'un patient';
-        this.loadPatientData(this.patientId);
-        
-        // En mode édition, le mot de passe n'est pas requis
-        this.patientForm.get('password')?.clearValidators();
-        this.patientForm.get('password')?.updateValueAndValidity();
-      }
-    });
-  }
-
-
+  get f() { return this.patientForm.controls; }
 
   loadPatientData(id: string): void {
     this.isLoading = true;
@@ -84,7 +86,7 @@ export class SamplePageComponent implements OnInit {
         if (response.status && response.data) {
           // Accéder aux données à travers response.data
           const patient = response.data;
-          
+
           // Préremplir le formulaire avec les données existantes
           this.patientForm.patchValue({
             nom: patient.nom,
@@ -101,7 +103,12 @@ export class SamplePageComponent implements OnInit {
             role: patient.role,
             password: ''  // Vider le champ mot de passe en mode édition
           });
-          
+
+          // Afficher la photo existante si disponible
+          if (patient.photo) {
+            this.photoPreview = patient.photo;
+          }
+
           // Mise à jour de isHomme en fonction du genre chargé
           this.isHomme = patient.genre === 'HOMME';
         } else {
@@ -116,12 +123,12 @@ export class SamplePageComponent implements OnInit {
             this.router.navigate(['/patient']);
           });
         }
-        
+
         this.isLoading = false;
       },
       error: (error) => {
         console.error('Erreur lors du chargement des données du patient', error);
-        
+
         Swal.fire({
           icon: 'error',
           title: 'Erreur',
@@ -131,139 +138,120 @@ export class SamplePageComponent implements OnInit {
         }).then(() => {
           this.router.navigate(['/patient']);
         });
-        
+
         this.isLoading = false;
       }
     });
   }
 
+  onPhotoChange(event: Event) {
+    const input = event.target as HTMLInputElement;
 
+    if (input.files && input.files.length) {
+      this.photoFile = input.files[0];
 
-
-  get f() { return this.patientForm.controls; }
-
-  onPhotoChange(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
-      // Vérification du type de fichier
-      if (!file.type.match(/image\/(jpeg|jpg|png|gif)/)) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Format non valide',
-          text: 'Veuillez sélectionner une image (jpeg, jpg, png, gif)',
-          confirmButtonColor: '#d33',
-        });
-        return;
-      }
-
-      // Vérification de la taille (max 2 Mo)
-      if (file.size > 2 * 1024 * 1024) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Fichier trop volumineux',
-          text: 'La taille de l\'image ne doit pas dépasser 2 Mo',
-          confirmButtonColor: '#d33',
-        });
-        return;
-      }
-
-      // Conversion de l'image en base64
+      // Prévisualisation de l'image
       const reader = new FileReader();
-      reader.onload = (e: any) => {
-        // Mise à jour du formulaire avec l'image en base64
-        this.patientForm.patchValue({
-          photo: e.target.result
-        });
+      reader.onload = () => {
+        this.photoPreview = reader.result as string;
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(this.photoFile);
     }
   }
 
+  removePhoto() {
+    this.photoPreview = null;
+    this.photoFile = null;
+    this.patientForm.get('photo')?.setValue('');
+  }
 
-
-
-  
   onSubmit() {
-    if (this.patientForm.valid) {
-      console.log('Envoi des données...', this.patientForm.value);
-      
-      const patientData = {...this.patientForm.value};
-      
-      // En mode édition, si le mot de passe est vide, le retirer
-      if (this.isEditMode && !patientData.password) {
-        delete patientData.password;
-      }
-      
-      if (this.isEditMode && this.patientId) {
-        // Mise à jour d'un patient existant
-        this.utilisateurService.updateUtilisateur(this.patientId, patientData).subscribe({
-          next: (response) => {
-            console.log('Utilisateur modifié avec succès', response);
-            
-            Swal.fire({
-              icon: 'success',
-              title: 'Succès',
-              text: 'Utilisateur modifié avec succès !',
-              confirmButtonColor: '#3085d6',
-              confirmButtonText: 'OK'
-            }).then(() => {
-              this.router.navigate(['/patient']);
-            });
-          },
-          error: this.handleError
-        });
-      } else {
-        // Création d'un nouveau patient
-        this.utilisateurService.createUtilisateur(patientData).subscribe({
-          next: (response) => {
-            console.log('Utilisateur ajouté avec succès', response);
-            
-            Swal.fire({
-              icon: 'success',
-              title: 'Succès',
-              text: 'Utilisateur ajouté avec succès !',
-              confirmButtonColor: '#3085d6',
-              confirmButtonText: 'OK'
-            }).then(() => {
-              this.router.navigate(['/patient']);
-            });
-            
-            this.patientForm.reset();
-          },
-          error: this.handleError
-        });
-      }
-    } else {
+    if (this.patientForm.invalid) {
       // Marquer tous les champs comme touchés pour afficher les erreurs
       Object.keys(this.patientForm.controls).forEach(key => {
-        this.patientForm.get(key)?.markAsTouched();
+        const control = this.patientForm.get(key);
+        control?.markAsTouched();
       });
-      
-      console.log('Formulaire invalide');
+
+      return;
     }
-  }
-  
-  handleError(error: any) {
-    console.error('Erreur lors de l\'opération', error);
-    
-    let errorMessage = 'Une erreur est survenue.';
-    
-    if (error.error && error.error.errors) {
-      const errors = error.error.errors;
-      errorMessage = Object.values(errors)
-        .flat() // Aplatit les tableaux imbriqués
-        .join('----\n'); // Concatène les messages avec un saut de ligne
+
+    // Préparer les données
+    const formData = {...this.patientForm.value};
+
+    // Gérer le cas où le mot de passe est vide en mode édition
+    if (this.isEditMode && !formData.password) {
+      delete formData.password;
     }
-    
-    Swal.fire({
-      icon: 'error',
-      title: 'Erreur',
-      text: errorMessage,
-      confirmButtonColor: '#d33',
-      confirmButtonText: 'OK',
-      timer: 5000, // Temps en millisecondes
-      timerProgressBar: true, // Afficher une barre de progression
-    });
+
+    // Ajouter l'URL de la photo si disponible
+    if (this.photoPreview && this.photoFile) {
+      // Dans un cas réel, vous utiliseriez un service pour télécharger la photo
+      // et obtenir l'URL, mais pour cet exemple, nous allons simuler
+      formData.photo = this.photoPreview;
+    }
+
+    if (this.isEditMode && this.patientId) {
+      // Mode modification
+      this.utilisateurService.updateUtilisateur(this.patientId, formData).subscribe({
+        next: (response) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Succès',
+            text: 'Patient mis à jour avec succès !',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+          }).then(() => {
+            this.router.navigate(['/patient']);
+          });
+        },
+        error: (error) => {
+          console.error('Erreur lors de la mise à jour', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Erreur',
+            text: 'Une erreur est survenue lors de la mise à jour.',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK'
+          });
+        }
+      });
+    } else {
+      // Mode ajout
+      this.utilisateurService.createUtilisateur(formData).subscribe({
+        next: (response) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Succès',
+            text: 'Patient ajouté avec succès !',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+          }).then(() => {
+            this.router.navigate(['/patient']);
+          });
+        },
+        error: (error) => {
+          console.error('Erreur lors de l\'ajout', error);
+
+          let errorMessage = 'Une erreur est survenue.';
+
+          if (error.error && error.error.errors) {
+            const errors = error.error.errors;
+            errorMessage = Object.values(errors)
+              .flat() // Aplatit les tableaux imbriqués
+              .join('   |  \n'); // Concatène les messages avec un saut de ligne
+          }
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Erreur',
+            text: errorMessage,
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK'
+          });
+        }
+      });
+    }
   }
 
   // Annuler et retourner à la liste

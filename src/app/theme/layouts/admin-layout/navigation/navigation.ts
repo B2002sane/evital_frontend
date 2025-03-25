@@ -75,7 +75,7 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         icon: 'wallet',
         classes: 'nav-item',
-        url: '/dashboard-donneur',
+        url: '/gestion-chambre',
      
       },
       {

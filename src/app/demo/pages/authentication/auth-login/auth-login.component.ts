@@ -1,16 +1,18 @@
 import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
+import { Router, RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 import { interval, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { LoginService } from 'src/app/service/login.service';
+import { LoginService } from '../../../../service/login.service';
+
+
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-auth-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule, HttpClientModule, RouterModule],
   templateUrl: './auth-login.component.html',
   styleUrls: ['./auth-login.component.scss'],
   providers: [LoginService],
@@ -26,6 +28,13 @@ export class AuthLoginComponent implements OnDestroy {
   emailTouched: boolean = false;
   passwordTouched: boolean = false;
 
+  // Variables pour le formulaire de mot de passe oublié
+showForgotPasswordForm: boolean = false;
+forgotEmail: string = '';
+forgotEmailError: string = '';
+resetMessage: string = '';
+resetSuccess: boolean = false;
+
   // Variables pour le blocage après tentatives échouées
   failedAttempts: number = 0;
   isLocked: boolean = false;
@@ -34,7 +43,7 @@ export class AuthLoginComponent implements OnDestroy {
   lockTimerSubscription: Subscription | null = null;
 
   constructor(
-    private router: Router,
+    public router: Router,
     public loginService: LoginService
   ) {
     // Restaurer l'état de blocage depuis le localStorage si disponible
@@ -60,30 +69,26 @@ export class AuthLoginComponent implements OnDestroy {
 
     // Appeler le service pour vérifier l'UID
     this.loginService.loginbycard(uid).subscribe({
-      next: (response) => {
+      next: () => {
         this.isLoading = false;
-        
+
         // Réinitialiser le compteur de tentatives échouées en cas de succès
         this.resetLockState();
-        
+
         // Réinitialiser les erreurs
         this.serverError = '';
         this.emailError = '';
         this.passwordError = '';
-        
-        // Rediriger vers le tableau de bord ou la page appropriée selon le rôle
-        if (response.user?.role === 'MEDECIN_CHEF' || response.user?.role === 'MEDECIN') {
-          this.router.navigate(['/dashboard/default']);
-        } else {
-          this.router.navigate(['/donneur']);
-        }
+
+        // Rediriger vers la route par défaut
+        this.router.navigate(['/dashboard/default']);
       },
       error: (error: Error) => {
         this.isLoading = false;
-        
+
         // En cas d'échec, on incrémente le compteur d'erreurs
         this.incrementFailedAttempts();
-        
+
         if (this.isLocked) {
           this.serverError = `Trop de tentatives échouées. Compte bloqué pendant ${this.remainingTime} secondes.`;
         } else {
@@ -112,6 +117,10 @@ export class AuthLoginComponent implements OnDestroy {
         // Le blocage a expiré, nettoyer les données
         localStorage.removeItem('loginLockData');
         this.resetLockState();
+
+         
+      // Effacer explicitement le message d'erreur
+      this.serverError = '';
       }
     }
   }
@@ -258,7 +267,7 @@ export class AuthLoginComponent implements OnDestroy {
     this.isLoading = true;
 
     this.loginService.login(this.email, this.password).subscribe({
-      next: (response) => {
+      next: () => {
         this.isLoading = false;
 
         // Réinitialiser le compteur de tentatives échouées en cas de succès
@@ -267,15 +276,12 @@ export class AuthLoginComponent implements OnDestroy {
         // Réinitialiser les champs du formulaire
         this.resetFormFields();
 
-        // Rediriger en fonction du rôle de l'utilisateur
-        if (response.user?.role === 'MEDECIN_CHEF' || response.user?.role === 'MEDECIN') {
-          this.router.navigate(['/dashboard/default']);
-        } else {
-          this.router.navigate(['/color']);
-        }
+        // Rediriger vers la route par défaut
+        this.router.navigate(['/dashboard/default']);
       },
-      error: (error: HttpErrorResponse) => {
+      error: (error) => {
         this.isLoading = false;
+
 
         // Incrémenter le compteur de tentatives échouées
         this.incrementFailedAttempts();
@@ -292,15 +298,77 @@ export class AuthLoginComponent implements OnDestroy {
         } else if (error.status === 0) {
           this.serverError = 'Impossible de se connecter au serveur. Vérifiez votre connexion Internet.';
         } else {
-          this.serverError = error.error.message || 'Une erreur est survenue lors de la connexion';
+          this.serverError = error.message || 'Une erreur est survenue lors de la connexion';
         }
       }
     });
   }
 
+  // Méthode pour ouvrir le formulaire de mot de passe oublié
+  openForgotPassword(event: Event) {
+    event.preventDefault();
+    if (this.isLocked) return;
+    
+    this.showForgotPasswordForm = true;
+  }
+  
+  // Méthode pour envoyer le lien de réinitialisation
+  sendResetLink() {
+    // Valider l'email
+    this.forgotEmailError = '';
+    
+    if (!this.forgotEmail) {
+      this.forgotEmailError = "L'email est requis";
+      return;
+    }
+    
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(this.forgotEmail)) {
+      this.forgotEmailError = "Format d'email invalide";
+      return;
+    }
+    
+    this.isLoading = true;
+    this.resetMessage = '';
+    
+  //   // Utiliser la méthode du service
+  //  this.loginService.sendPasswordResetLink(this.forgotEmail).subscribe({
+  //     next: (response) => {
+  //       this.isLoading = false;
+  //       this.resetSuccess = true;
+  //       this.resetMessage = response.message || 'Un lien de réinitialisation a été envoyé à votre adresse email.';
+  //     },
+  //     error: (error) => {
+  //       this.isLoading = false;
+  //       this.resetSuccess = false;
+  //       this.resetMessage = error.message || 'Une erreur est survenue lors de l\'envoi du lien.';
+  //     }
+  //   });
+  }
+  
+  // Méthode pour fermer le formulaire de mot de passe oublié
+  closeForgotPasswordForm() {
+    this.showForgotPasswordForm = false;
+    this.forgotEmail = '';
+    this.forgotEmailError = '';
+    this.resetMessage = '';
+    this.resetSuccess = false; // Ajoutez cette ligne
+
+  }
+
+
+  // Méthode pour réinitialiser le formulaire après envoi réussi
+resetForgotPasswordForm() {
+  this.forgotEmail = '';
+  this.forgotEmailError = '';
+  this.resetMessage = '';
+  this.resetSuccess = false;
+}
+  
+
   // Méthode pour gérer la connexion par RFID
   onRfidLogin(event: Event) {
-    event.preventDefault(); // Empêcher le comportement par défaut du lien
+    event.preventDefault(); // Empêcher le comportement par défaut du bouton
 
     // Si le compte est bloqué, ne pas continuer
     if (this.isLocked) {
@@ -310,7 +378,7 @@ export class AuthLoginComponent implements OnDestroy {
 
     // Afficher un message pour demander à l'utilisateur de scanner sa carte
     this.serverError = 'Veuillez scanner votre carte RFID...';
-    
+
     // Ici, on ne fait rien de plus car c'est le socket.io qui va recevoir l'UID et appeler updateFormWithRfidData
   }
 
