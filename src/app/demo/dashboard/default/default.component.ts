@@ -1,9 +1,6 @@
 // angular import
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-
-
 import { MonthlyBarChartComponent } from 'src/app/theme/shared/apexchart/monthly-bar-chart/monthly-bar-chart.component';
 import { IncomeOverviewChartComponent } from 'src/app/theme/shared/apexchart/income-overview-chart/income-overview-chart.component';
 // icons
@@ -13,6 +10,8 @@ import { CardComponent } from 'src/app/theme/shared/components/card/card.compone
 import { LoginService } from 'src/app/service/login.service';
 import { Utilisateur, UtilisateurService } from 'src/app/service/utilisateur.service';
 import { GestionChambreService } from 'src/app/service/gestion-chambre.service';
+
+
 
 
 @Component({
@@ -57,6 +56,7 @@ export class DefaultComponent  {
     // Utilisez la méthode getCurrentUser() pour récupérer l'utilisateur actuel
     this.currentUser = this.LoginService.getCurrentUser();
     console.log('Utilisateur actuel:', this.currentUser);
+
   }
 
 
@@ -65,6 +65,7 @@ export class DefaultComponent  {
     this.utilisateurService.getUtilisateursParRoles(['MEDECIN', 'MEDECIN_CHEF']).subscribe(
       (medecins) => {
         this.statistiques.total_medecins = medecins.length;
+
       },
       (error) => {
         console.error('Erreur lors de la récupération des médecins:', error);

@@ -46,38 +46,32 @@ const routes: Routes = [
       },
       {
         path: 'rendez-vous',
-        loadComponent: () =>
-          import('./demo/rendez-vous/rendez-vous.component').then((c) => c.RendezVousComponent),
+        loadComponent: () => import('./demo/rendez-vous/rendez-vous.component').then((c) => c.RendezVousComponent),
         canActivate: [LoginGuard]
       },
       {
         path: 'patient',
-        loadComponent: () =>
-          import('./demo/patient/patient.component').then((c) => c.PatientComponent),
+        loadComponent: () => import('./demo/patient/patient.component').then((c) => c.PatientComponent),
         canActivate: [LoginGuard]
       },
       {
         path: 'patient-details/:id',
-        loadComponent: () =>
-          import('./demo/patient-details/patient-details.component').then((c) => c.PatientDetailsComponent),
+        loadComponent: () => import('./demo/patient-details/patient-details.component').then((c) => c.PatientDetailsComponent),
         canActivate: [LoginGuard]
       },
       {
         path: 'personnel-medical',
-        loadComponent: () =>
-          import('./demo/personnel-medical/personnel-medical.component').then((c) => c.PersonnelMedicalComponent),
+        loadComponent: () => import('./demo/personnel-medical/personnel-medical.component').then((c) => c.PersonnelMedicalComponent),
         canActivate: [LoginGuard]
       },
       {
         path: 'ajout-personnel',
-        loadComponent: () =>
-          import('./demo/others/ajout-personnel/ajout-personnel.component').then((c) => c.AjoutPersonnelComponent),
+        loadComponent: () => import('./demo/others/ajout-personnel/ajout-personnel.component').then((c) => c.AjoutPersonnelComponent),
         canActivate: [LoginGuard]
       },
       {
         path: 'edit/personnel/:id',
-        loadComponent: () =>
-          import('./demo/others/ajout-personnel/ajout-personnel.component').then((c) => c.AjoutPersonnelComponent)
+        loadComponent: () => import('./demo/others/ajout-personnel/ajout-personnel.component').then((c) => c.AjoutPersonnelComponent)
       },
       {
         path: 'gestion-chambre',
@@ -85,8 +79,7 @@ const routes: Routes = [
       },
       {
         path: 'demande-don',
-        loadComponent: () =>
-          import('./demo/demande-don/demande-don.component').then((c) => c.DemandeDonComponent),
+        loadComponent: () => import('./demo/demande-don/demande-don.component').then((c) => c.DemandeDonComponent),
         canActivate: [LoginGuard]
       }
     ]
@@ -119,6 +112,12 @@ const routes: Routes = [
       {
         path: 'login-donneur',
         loadComponent: () => import('./demo/pages/authentication/login-donneur/login-donneur.component').then((c) => c.LoginDonneurComponent)
+      }
+      ,
+      {
+        path: 'dossier-medical/:id',
+        loadComponent: () => import('./demo/dossier-medical/dossier-medical.component').then((c) => c.DossierMedicalComponent),
+        canActivate: [LoginGuard]
       }
       
     ]

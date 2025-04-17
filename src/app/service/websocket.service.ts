@@ -8,12 +8,13 @@ import { NotificationService } from './notification.service';
 export class WebsocketService {
   private socket!: WebSocket;
   private bpmSubject = new BehaviorSubject<number>(0); // Observable pour stocker le BPM avec valeur initiale
-  private tempSubject = new BehaviorSubject<number>(36.5); // Observable pour stocker la température avec valeur initiale
+  private tempSubject = new BehaviorSubject<number>(0); // Observable pour stocker la température avec valeur initiale
   private connectionStatus = new BehaviorSubject<boolean>(false);
+  private rawDataSubject = new Subject<any>(); // Nouveau Subject pour les données brutes
   
   private reconnectTimer: any;
   private isConnecting = false;
-  private BPM_CRITIQUE = 20;  //seuil pour les notification du battement cardiaque
+  private BPM_CRITIQUE = 170;  //seuil pour les notification du battement cardiaque
 
   constructor(private notificationService: NotificationService) {
     this.connect();
@@ -24,7 +25,7 @@ export class WebsocketService {
     this.isConnecting = true;
     
     // Remplacez par l'adresse IP de votre ESP8266
-    this.socket = new WebSocket('ws://192.168.1.140:81');
+    this.socket = new WebSocket('ws://192.168.1.12:81');
 
     this.socket.onopen = () => {
       console.log('WebSocket connecté');
@@ -41,12 +42,16 @@ export class WebsocketService {
         console.log('Message reçu:', event.data);
         const data = JSON.parse(event.data);
         
+        // Émettre les données brutes pour pouvoir les filtrer par chambre et lit
+        this.rawDataSubject.next(data);
+        
+        // Conserver le comportement existant pour la compatibilité
         if (data.bpm !== undefined && !isNaN(data.bpm)) {
           const bpm = parseInt(data.bpm);
           // Vérifier que le BPM est dans une plage raisonnable
           if (bpm >= 0 && bpm <= 220) {
             this.bpmSubject.next(bpm);
-            this.checkBpm(bpm);//pour les notification du battement cardiaque
+            this.checkBpm(bpm); //pour les notification du battement cardiaque
           }
         }
         
@@ -86,6 +91,10 @@ export class WebsocketService {
     return this.tempSubject.asObservable(); // Retourne la température sous forme d'observable
   }
   
+  // Nouvelle méthode pour récupérer les données brutes
+  getRawDataUpdates(): Observable<any> {
+    return this.rawDataSubject.asObservable();
+  }
 
   //pour les notification du battement cardiaque
   private checkBpm(bpm: number): void {

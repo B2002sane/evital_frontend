@@ -1,0 +1,156 @@
+<div class="dossier-medical-container">
+  <div class="header">
+    <h2>Dossier Medical</h2>
+    <button class="btn-rendez-vous">Rendez Vous</button>
+  </div>
+  
+  <div class="patient-info">
+    <div class="photo">
+      <img src="assets/patient.jpg" alt="Photo du patient">
+    </div>
+    
+    <div class="info-section">
+      <h3>Informations personnels</h3>
+      
+      <div class="info-grid">
+        <div class="info-row">
+          <div class="info-group">
+            <div class="label">Nom</div>
+            <div class="value">{{patient?.nom }} </div>
+          </div>
+          
+          <div class="info-group">
+            <div class="label">Prenom</div>
+            <div class="value"> {{patient.prenom}} </div>
+          </div>
+          
+          <div class="info-group">
+            <div class="label">Address</div>
+            <div class="value"> {{patient.adresse}}  </div>
+          </div>
+          
+          <div class="info-group">
+            <div class="label">Date naissance</div>
+            <div class="value"> {{patient.dateNaissance}} </div>
+          </div>
+          
+          <div class="info-group">
+            <div class="label">Poids</div>
+            <div class="value"> {{patient.poids}} </div>
+          </div>
+        </div>
+        
+        <div class="info-row">
+          <div class="info-group">
+            <div class="label">Email</div>
+            <div class="value"> {{patient.email}} </div>
+          </div>
+          
+          <div class="info-group">
+            <div class="label">Telephone</div>
+            <div class="value"> {{patient.telephone}} </div>
+          </div>
+          
+          <div class="info-group">
+            <div class="label">Matricule</div>
+            <div class="value"> {{patient.matricule}} </div>
+          </div>
+          
+          <div class="info-group">
+            <div class="label">Groupe Sanguin</div>
+            <div class="value"> {{patient.groupeSanguin}} </div>
+          </div>
+          
+          <div class="info-group">
+            <div class="label">Taille</div>
+            <div class="value">1m 70</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="records-container">
+    <div class="historique">
+      <h3>Historique de mes visites</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Medecin</th>
+            <th>Prescription</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let visite of historiqueVisites">
+            <td>12 Jan 2022</td>
+            <td>Dr Jacob Ryan</td>
+            <td><span class="badge">Ordonnance</span></td>
+            <td><i class="document-icon"></i></td>
+          </tr>
+          <tr>
+            <td>12 Jan 2022</td>
+            <td>Dr Jacob Ryan</td>
+            <td><span class="badge">Ordonnance</span></td>
+            <td><i class="document-icon"></i></td>
+          </tr>
+          <tr>
+            <td>12 Jan 2022</td>
+            <td>Dr Jacob Ryan</td>
+            <td><span class="badge">Ordonnance</span></td>
+            <td><i class="document-icon"></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="rendez-vous">
+      <h3>Prochain Rendez Vous</h3>
+      <div class="rendez-vous-section" *ngIf="rendezVousPatient.length > 0">
+        
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Heure</th>
+              <th>Médecin</th>
+              <th>Motif</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let rdv of rendezVousPatient">
+              <td>{{ rdv.date | date: 'dd MMM yyyy' }}</td>
+              <td>{{ rdv.date | date: 'HH:mm' }}</td>
+              <td>{{ rdv.medecin?.prenom }} {{ rdv.medecin?.nom }}</td>
+              <td>{{ rdv.motif }}</td>
+              <td>
+                <span [ngClass]="{
+                    'badge bg-warning': rdv.status === 'en_attente',
+                    'badge bg-success': rdv.status === 'confirme',
+                    'badge bg-danger': rdv.status === 'annule',
+                    'badge bg-secondary': rdv.status === 'termine'
+                  }">
+                  {{ rdv.status }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div *ngIf="rendezVousPatient.length === 0">
+        <p>Aucun rendez-vous trouvé pour ce patient.</p>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div class="footer">
+    <button class="btn-deconnexion">
+      <i class="power-icon"></i>
+      Deconnexion
+    </button>
+  </div>
+</div>

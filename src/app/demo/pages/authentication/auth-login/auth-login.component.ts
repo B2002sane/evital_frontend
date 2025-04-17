@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule , ActivatedRoute } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { interval, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -44,7 +44,8 @@ resetSuccess: boolean = false;
 
   constructor(
     public router: Router,
-    public loginService: LoginService
+    public loginService: LoginService,
+    public activatedRoute: ActivatedRoute
   ) {
     // Restaurer l'état de blocage depuis le localStorage si disponible
     this.restoreLockState();
@@ -394,4 +395,6 @@ resetForgotPasswordForm() {
       this.lockTimerSubscription.unsubscribe();
     }
   }
+
+  
 }

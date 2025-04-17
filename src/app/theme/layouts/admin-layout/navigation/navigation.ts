@@ -18,6 +18,12 @@ export interface NavigationItem {
   path?: string;
 }
 
+// Récupérer l'objet current_user depuis le localStorage
+const currentUser = JSON.parse(localStorage.getItem('current_user') || '{}');
+
+// Vérifier si currentUser et le rôle existent
+const userRole = currentUser?.role; // "MEDECIN", "MEDECIN_CHEF", ou autre rôle
+
 export const NavigationItems: NavigationItem[] = [
   // {
   //   id: 'dashboard',
@@ -52,7 +58,7 @@ export const NavigationItems: NavigationItem[] = [
        
       },
       {
-        id: 'dashboard',
+        id: 'personnel-medical',
         title: 'Personnels Medical',
         type: 'item',
         icon: 'profile',
@@ -140,3 +146,14 @@ export const NavigationItems: NavigationItem[] = [
   //   ]
   // }
 ];
+
+
+
+// Si le rôle de l'utilisateur n'est pas 'MEDECIN_CHEF', supprimer l'élément 'Personnels Medical'
+if (userRole !== 'MEDECIN_CHEF') {
+  NavigationItems[0].children = NavigationItems[0].children?.filter(
+    (item) => item.id !== 'personnel-medical'
+  );
+}
+
+console.log(NavigationItems); // Affiche les éléments du menu filtrés

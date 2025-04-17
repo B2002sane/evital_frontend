@@ -1,0 +1,179 @@
+/* Main container */
+.dossier-medical-container {
+  background: #fff;
+  padding: 50px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.08);
+  width: 90%;
+  margin: 40px  0px 0px 40px ;
+  font-family: Arial, sans-serif;
+}
+
+/* Header styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  font-size: 24px;
+  color: #333;
+  margin: 0;
+}
+
+.btn-rendez-vous {
+  background: #009688;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Patient info section */
+.patient-info {
+  display: flex;
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.photo {
+  margin-right: 20px;
+}
+
+.photo img {
+  width: 140px;
+  height: 160px;
+  border-radius: 8px;
+}
+
+.info-section {
+  flex-grow: 1;
+}
+
+.info-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #333;
+}
+
+.info-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.info-group {
+  width: 20%;
+}
+
+.label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.value {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Records container */
+.records-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.historique, .rendez-vous {
+  flex: 1;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.historique h3, .rendez-vous h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #333;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+  color: #666;
+  font-weight: normal;
+}
+
+/* Badge */
+.badge {
+  background: #ff5252;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  display: inline-block;
+}
+
+/* Document icon */
+.document-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 20px;
+}
+
+.btn-deconnexion {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: #ff5252;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.power-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-right: 5px;
+  color: #ff5252;
+}

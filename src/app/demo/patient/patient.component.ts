@@ -379,4 +379,8 @@ confirmerHospitalisation(): void {
   viewPatientDetails(patientId: string): void {
     this.router.navigate(['/patient-details', patientId]);
   }
+
+  dossierMedical(patientId: string): void {
+    this.router.navigate(['/dossier-medical', patientId]);
+  }
 }
