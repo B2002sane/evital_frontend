@@ -1,7 +1,10 @@
+<button class="btn-retour" ><a href="/patient">Retour</a></button>
 <div class="dossier-medical-container">
   <div class="header">
     <h2>Dossier Medical</h2>
-    <button class="btn-rendez-vous">Rendez Vous</button>
+    <!-- //<button class="btn-rendez-vous">Rendez Vous</button> -->
+    <button class="btn-rendez-vous" (click)="ouvrirModalRdv()">rendez-vous</button>
+
   </div>
   
   <div class="patient-info">
@@ -21,44 +24,44 @@
           
           <div class="info-group">
             <div class="label">Prenom</div>
-            <div class="value"> {{patient.prenom}} </div>
+            <div class="value"> {{patient?.prenom}} </div>
           </div>
           
           <div class="info-group">
             <div class="label">Address</div>
-            <div class="value"> {{patient.adresse}}  </div>
+            <div class="value"> {{patient?.adresse}}  </div>
           </div>
           
           <div class="info-group">
             <div class="label">Date naissance</div>
-            <div class="value"> {{patient.dateNaissance}} </div>
+            <div class="value"> {{patient?.dateNaissance}} </div>
           </div>
           
           <div class="info-group">
             <div class="label">Poids</div>
-            <div class="value"> {{patient.poids}} </div>
+            <div class="value"> {{patient?.poids}} </div>
           </div>
         </div>
         
         <div class="info-row">
           <div class="info-group">
             <div class="label">Email</div>
-            <div class="value"> {{patient.email}} </div>
+            <div class="value"> {{patient?.email}} </div>
           </div>
           
           <div class="info-group">
             <div class="label">Telephone</div>
-            <div class="value"> {{patient.telephone}} </div>
+            <div class="value"> {{patient?.telephone}} </div>
           </div>
           
           <div class="info-group">
             <div class="label">Matricule</div>
-            <div class="value"> {{patient.matricule}} </div>
+            <div class="value"> {{patient?.matricule}} </div>
           </div>
           
           <div class="info-group">
             <div class="label">Groupe Sanguin</div>
-            <div class="value"> {{patient.groupeSanguin}} </div>
+            <div class="value"> {{patient?.groupeSanguin}} </div>
           </div>
           
           <div class="info-group">
@@ -69,41 +72,40 @@
       </div>
     </div>
   </div>
-  
+  <button class="btn-rendez-vous" (click)="ouvrirModalAjout()">Ajouter une visite</button> <br><br>
+
   <div class="records-container">
     <div class="historique">
-      <h3>Historique de mes visites</h3>
+      <h3>Visites Medical Du Patient</h3>
       <table>
         <thead>
           <tr>
             <th>Date</th>
             <th>Medecin</th>
+            <th>Email medecin</th>
             <th>Prescription</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let visite of historiqueVisites">
-            <td>12 Jan 2022</td>
-            <td>Dr Jacob Ryan</td>
-            <td><span class="badge">Ordonnance</span></td>
-            <td><i class="document-icon"></i></td>
-          </tr>
-          <tr>
-            <td>12 Jan 2022</td>
-            <td>Dr Jacob Ryan</td>
-            <td><span class="badge">Ordonnance</span></td>
-            <td><i class="document-icon"></i></td>
-          </tr>
-          <tr>
-            <td>12 Jan 2022</td>
-            <td>Dr Jacob Ryan</td>
-            <td><span class="badge">Ordonnance</span></td>
-            <td><i class="document-icon"></i></td>
+          <tr *ngFor="let visite of paginatedVisites; let i = index">
+            <td>{{ visite.created_at | date:'dd MMM yyyy' }}</td>
+            <td>{{ visite.medecin?.prenom }} {{ visite.medecin?.nom }}</td>
+            <td>{{ visite.medecin?.email }}</td>
+            <td><span class="badge"   (click)="openOrdonnance(i)" >Ordonnance</span></td>
+            <td>
+              <i class="document-icon" (click)="openOrdonnance(i)"></i>
+            </td>
           </tr>
         </tbody>
       </table>
+      <div class="pagination">
+        <button (click)="changerPageVisites(currentPageVisites - 1)" [disabled]="currentPageVisites === 1">Précédent</button>
+        <span>Page {{ currentPageVisites }} / {{ totalPagesVisites }}</span>
+        <button (click)="changerPageVisites(currentPageVisites + 1)" [disabled]="currentPageVisites === totalPagesVisites">Suivant</button>
+      </div>
     </div>
+    
     
     <div class="rendez-vous">
       <h3>Prochain Rendez Vous</h3>
@@ -120,7 +122,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let rdv of rendezVousPatient">
+            <tr *ngFor="let rdv of paginatedRendezVous">
               <td>{{ rdv.date | date: 'dd MMM yyyy' }}</td>
               <td>{{ rdv.date | date: 'HH:mm' }}</td>
               <td>{{ rdv.medecin?.prenom }} {{ rdv.medecin?.nom }}</td>
@@ -138,6 +140,11 @@
             </tr>
           </tbody>
         </table>
+        <div class="pagination">
+          <button (click)="changerPageRdv(currentPageRdv - 1)" [disabled]="currentPageRdv === 1">Précédent</button>
+          <span>Page {{ currentPageRdv }} / {{ totalPagesRdv }}</span>
+          <button (click)="changerPageRdv(currentPageRdv + 1)" [disabled]="currentPageRdv === totalPagesRdv">Suivant</button>
+        </div>
       </div>
       
       <div *ngIf="rendezVousPatient.length === 0">
@@ -154,3 +161,113 @@
     </button>
   </div>
 </div>
+
+
+
+
+<!-- Modal Ordonnance -->
+<div class="modal" *ngIf="selectedVisite" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <img src="assets/images/e-vital clinik.png" alt="eVital Logo" class="logo-evital">
+      <h2>Ordonnance Du Patient   {{patient?.prenom}} {{ patient?.nom }}</h2> 
+      <span class="close-btn" (click)="closeModal()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p><strong>Date de la visite :</strong> {{ selectedVisite?.created_at | date:'dd MMM yyyy' }}</p>
+      <p><strong>Médecin :</strong> {{ selectedVisite?.medecin?.prenom }} {{ selectedVisite?.medecin?.nom }}</p>
+      <h4>Prescriptions :</h4>
+      <ul>
+        <li *ngFor="let prescription of selectedVisite?.prescriptions">
+          <strong>{{ prescription.nom_medicament }}</strong> <br> Dosage: {{ prescription.frequence }}
+        </li>
+      </ul>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Modal Ajout Visite -->
+<div class="modal" *ngIf="showModalAjoutVisite" (click)="fermerModalAjout()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Nouvelle Visite Médicale</h2>
+      <span class="close-btn" (click)="fermerModalAjout()">&times;</span>
+    </div>
+
+    <div class="modal-body">
+      <h4 class="form-title">Ajouter des prescriptions :</h4>
+
+      <div class="form-group">
+        <label for="medicament">Médicament :</label>
+        <input id="medicament" type="text" [(ngModel)]="nouvelleVisite.nom_medicament" placeholder="Nom du médicament">
+      </div>
+
+      <div class="form-group">
+        <label for="frequence">Fréquence :</label>
+        <input id="frequence" type="text" [(ngModel)]="nouvelleVisite.frequence" placeholder="Ex : 2x par jour">
+      </div>
+
+      <button class="btn-ajouter" (click)="ajouterPrescription()">Ajouter</button>
+
+      <ul class="liste-prescriptions">
+        <li *ngFor="let p of nouvelleVisite.prescriptions; let i = index">
+          <span>{{ p.nom_medicament }} - {{ p.frequence }}</span>
+          <button class="btn-supprimer" (click)="supprimerPrescription(i)">🗑</button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="modal-footer">
+      <button 
+      class="btn-valider"
+      (click)="validerAjoutVisite()"
+      [disabled]="nouvelleVisite.prescriptions.length === 0 || nouvelleVisite.nom_medicament || nouvelleVisite.frequence"
+    >
+      Valider la visite
+    </button>
+    
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal de prise de rendez vous -->
+
+
+
+
+
+  <!-- Modal de Création de Rendez-vous -->
+  <div class="modal" *ngIf="showModalRdv" (click)="fermerModalRdv()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Créer un Rendez-vous</h2>
+        <span class="close-btn" (click)="fermerModalRdv()">&times;</span>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Date :</label>
+          <input type="date" [(ngModel)]="nouveauRdv.date" [min]="minDate">
+        </div>
+
+        <div class="form-group">
+          <label>Heure :</label>
+          <input type="time" [(ngModel)]="nouveauRdv.heure">
+        </div>
+
+        <div class="form-group">
+          <label>Motif :</label>
+          <input type="text" [(ngModel)]="nouveauRdv.motif" placeholder="Motif du rendez-vous">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-valider" (click)="creerRendezVous()">Créer</button>
+      </div>
+    </div>
+  </div>
