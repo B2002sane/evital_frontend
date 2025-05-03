@@ -144,7 +144,6 @@
   </div>
 </div>
 
-
 <!-- Formulaire de réinitialisation de mot de passe -->
 <div *ngIf="showForgotPasswordForm" class="forgot-password-modal">
   <div class="forgot-password-container">
@@ -158,7 +157,8 @@
       </button>
     </div>
     
-    <div *ngIf="!resetSuccess" class="forgot-password-form">
+    <!-- Étape 1: Formulaire d'email (à afficher si on n'est pas à l'étape OTP et pas de succès) -->
+    <div *ngIf="!showOtpForm && !resetSuccess" class="forgot-password-form">
       <p>Entrez votre adresse email pour recevoir un lien de réinitialisation</p>
       
       <div class="form-group">
@@ -183,18 +183,47 @@
         </div>
       </div>
       
-       <button type="button" class="btn-submit" [disabled]="isLoading || !forgotEmail" (click)="sendResetLink()">
+      <button type="button" class="btn-submit" [disabled]="isLoading || !forgotEmail" (click)="sendResetLink()">
         <span *ngIf="!isLoading">ENVOYER LE LIEN</span>
         <span *ngIf="isLoading" class="button-spinner">
           <div class="spinner"></div> Envoi en cours...
         </span>
       </button>  
       
-      <div *ngIf="resetMessage" class="reset-message" [class.success]="resetSuccess">
+      <div *ngIf="resetMessage && !resetSuccess" class="reset-message">
         {{ resetMessage }}
       </div>
     </div>
     
+    <!-- Étape 2: Formulaire OTP et nouveau mot de passe (à afficher si on est à l'étape OTP) -->
+    <div *ngIf="showOtpForm && !resetSuccess" class="verification-form">
+      <h4>Vérification du code</h4>
+      <p>Veuillez entrer le code OTP reçu et créer un nouveau mot de passe.</p>
+    
+      <div class="form-group">
+        <input type="text" placeholder="Code OTP" class="form-input" [(ngModel)]="otp" />
+        <div *ngIf="otpError" class="error-text">{{ otpError }}</div>
+      </div>
+    
+      <div class="form-group">
+        <input type="password" placeholder="Nouveau mot de passe" class="form-input" [(ngModel)]="newPassword" />
+        <div *ngIf="newPasswordError" class="error-text">{{ newPasswordError }}</div>
+      </div>
+    
+      <div class="form-group">
+        <input type="password" placeholder="Confirmer le mot de passe" class="form-input" [(ngModel)]="confirmPassword" />
+        <div *ngIf="confirmPasswordError" class="error-text">{{ confirmPasswordError }}</div>
+      </div>
+    
+      <button type="button" class="btn-submit" [disabled]="isLoading" (click)="resetPasswordWithOtp()">
+        <span *ngIf="!isLoading">RÉINITIALISER</span>
+        <span *ngIf="isLoading" class="button-spinner">
+          <div class="spinner"></div> Traitement...
+        </span>
+      </button>
+    </div>
+    
+    <!-- Étape 3: Message de succès (à afficher après réinitialisation réussie) -->
     <div *ngIf="resetSuccess" class="success-message">
       <div class="success-icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -204,7 +233,13 @@
       </div>
       <h4>Email envoyé avec succès</h4>
       <p>{{ resetMessage }}</p>
-      <p>Vérifiez votre boîte de réception et suivez les instructions.</p>
-      <button type="button" class="btn-submit" (click)="closeForgotPasswordForm()">FERMER</button>    </div>
+      <p>Réinitialisation du mot de passe effectuée avec succès. Connectez-vous avec vos nouveaux identifiants.</p>
+      <button type="button" class="btn-submit" (click)="closeForgotPasswordForm()">FERMER</button>
+    </div>
   </div>
 </div>
+
+
+
+
+

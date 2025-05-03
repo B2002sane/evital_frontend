@@ -314,30 +314,31 @@ resetSuccess: boolean = false;
   }
   
   // Méthode pour envoyer le lien de réinitialisation
-  sendResetLink() {
-    // Valider l'email
-    this.forgotEmailError = '';
+  // sendResetLink() {
+  //   // Valider l'email
+  //   this.forgotEmailError = '';
     
-    if (!this.forgotEmail) {
-      this.forgotEmailError = "L'email est requis";
-      return;
-    }
+  //   if (!this.forgotEmail) {
+  //     this.forgotEmailError = "L'email est requis";
+  //     return;
+  //   }
     
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(this.forgotEmail)) {
-      this.forgotEmailError = "Format d'email invalide";
-      return;
-    }
+  //   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  //   if (!emailRegex.test(this.forgotEmail)) {
+  //     this.forgotEmailError = "Format d'email invalide";
+  //     return;
+  //   }
     
-    this.isLoading = true;
-    this.resetMessage = '';
+  //   this.isLoading = true;
+  //   this.resetMessage = '';
     
-  //   // Utiliser la méthode du service
-  //  this.loginService.sendPasswordResetLink(this.forgotEmail).subscribe({
+  // //   // Utiliser la méthode du service
+  //  this.loginService.sendResetLink(this.forgotEmail).subscribe({
   //     next: (response) => {
   //       this.isLoading = false;
   //       this.resetSuccess = true;
   //       this.resetMessage = response.message || 'Un lien de réinitialisation a été envoyé à votre adresse email.';
+  //       this.showOtpForm = true;
   //     },
   //     error: (error) => {
   //       this.isLoading = false;
@@ -345,17 +346,18 @@ resetSuccess: boolean = false;
   //       this.resetMessage = error.message || 'Une erreur est survenue lors de l\'envoi du lien.';
   //     }
   //   });
-  }
+  // }
   
-  // Méthode pour fermer le formulaire de mot de passe oublié
-  closeForgotPasswordForm() {
-    this.showForgotPasswordForm = false;
-    this.forgotEmail = '';
-    this.forgotEmailError = '';
-    this.resetMessage = '';
-    this.resetSuccess = false; // Ajoutez cette ligne
+  
+  // // Méthode pour fermer le formulaire de mot de passe oublié
+  // closeForgotPasswordForm() {
+  //   this.showForgotPasswordForm = false;
+  //   this.forgotEmail = '';
+  //   this.forgotEmailError = '';
+  //   this.resetMessage = '';
+  //   this.resetSuccess = false; // Ajoutez cette ligne
 
-  }
+  // }
 
 
   // Méthode pour réinitialiser le formulaire après envoi réussi
@@ -396,5 +398,179 @@ resetForgotPasswordForm() {
     }
   }
 
+
+
+  /********************************************************** */
+
+  otp = '';
+  newPassword = '';
+  confirmPassword = '';
+
+  otpError = '';
+  newPasswordError = '';
+  confirmPasswordError = '';
+  showOtpForm = false;
+
+
+
+
+  // resetPasswordWithOtp() {
+  //   this.otpError = '';
+  //   this.newPasswordError = '';
+  //   this.confirmPasswordError = '';
   
+  //   if (!this.otp) {
+  //     this.otpError = 'Code OTP requis';
+  //   }
+  
+  //   if (!this.newPassword) {
+  //     this.newPasswordError = 'Mot de passe requis';
+  //   } else if (this.newPassword.length < 6) {
+  //     this.newPasswordError = 'Min. 6 caractères';
+  //   }
+  
+  //   if (this.newPassword !== this.confirmPassword) {
+  //     this.confirmPasswordError = 'Les mots de passe ne correspondent pas';
+  //   }
+  
+  //   if (this.otpError || this.newPasswordError || this.confirmPasswordError) {
+  //     return;
+  //   }
+  
+  //   this.isLoading = true;
+  //   this.loginService.resetPassword({
+  //     email: this.forgotEmail,
+  //     otp: this.otp,
+  //     password: this.newPassword,
+  //     password_confirmation: this.confirmPassword,
+  //   }).subscribe({
+  //     next: () => {
+  //       this.isLoading = false;
+  //       this.resetMessage = 'Mot de passe réinitialisé avec succès !';
+  //       this.resetSuccess = true;
+  //       this.showOtpForm = false;
+  //     },
+  //     error: (err) => {
+  //       this.isLoading = false;
+  //       this.otpError = err.error?.message || "Erreur lors de la réinitialisation.";
+  //     }
+  //   });
+  // }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // Mise à jour de la méthode sendResetLink
+sendResetLink() {
+  // Valider l'email
+  this.forgotEmailError = '';
+  
+  if (!this.forgotEmail) {
+    this.forgotEmailError = "L'email est requis";
+    return;
+  }
+  
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!emailRegex.test(this.forgotEmail)) {
+    this.forgotEmailError = "Format d'email invalide";
+    return;
+  }
+  
+  this.isLoading = true;
+  this.resetMessage = '';
+  
+  // Utiliser la méthode du service
+  this.loginService.sendResetLink(this.forgotEmail).subscribe({
+    next: (response) => {
+      this.isLoading = false;
+      // Plutôt que de définir resetSuccess à true immédiatement
+      // On passe à l'étape OTP
+      this.resetMessage = response.message || 'Un lien de réinitialisation a été envoyé à votre adresse email.';
+      // Afficher le formulaire OTP
+      this.showOtpForm = true;
+    },
+    error: (error) => {
+      this.isLoading = false;
+      this.resetSuccess = false;
+      this.resetMessage = error.message || 'Une erreur est survenue lors de l\'envoi du lien.';
+    }
+  });
+}
+
+// Mise à jour de la méthode resetPasswordWithOtp
+resetPasswordWithOtp() {
+  this.otpError = '';
+  this.newPasswordError = '';
+  this.confirmPasswordError = '';
+
+  if (!this.otp) {
+    this.otpError = 'Code OTP requis';
+  }
+
+  if (!this.newPassword) {
+    this.newPasswordError = 'Mot de passe requis';
+  } else if (this.newPassword.length < 6) {
+    this.newPasswordError = 'Min. 6 caractères';
+  }
+
+  if (this.newPassword !== this.confirmPassword) {
+    this.confirmPasswordError = 'Les mots de passe ne correspondent pas';
+  }
+
+  if (this.otpError || this.newPasswordError || this.confirmPasswordError) {
+    return;
+  }
+
+  this.isLoading = true;
+  this.loginService.resetPassword({
+    email: this.forgotEmail,
+    otp: this.otp,
+    password: this.newPassword,
+    password_confirmation: this.confirmPassword,
+  }).subscribe({
+    next: () => {
+      this.isLoading = false;
+      this.resetMessage = 'Mot de passe réinitialisé avec succès !';
+      this.resetSuccess = true;
+      this.showOtpForm = false;
+    },
+    error: (err) => {
+      this.isLoading = false;
+      this.otpError = err.error?.message || "Erreur lors de la réinitialisation.";
+    }
+  });
+}
+
+// Mise à jour de la méthode de fermeture
+closeForgotPasswordForm() {
+  this.showForgotPasswordForm = false;
+  this.forgotEmail = '';
+  this.forgotEmailError = '';
+  this.resetMessage = '';
+  this.resetSuccess = false;
+  this.showOtpForm = false;
+  this.otp = '';
+  this.newPassword = '';
+  this.confirmPassword = '';
+  this.otpError = '';
+  this.newPasswordError = '';
+  this.confirmPasswordError = '';
+}
+
 }

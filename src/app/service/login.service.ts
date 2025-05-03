@@ -243,4 +243,42 @@ private handleAuthSuccess(response: {
       status: error.status
     }));
   }
+
+
+  /************************************************* */
+
+
+  // Envoyer un lien de réinitialisation de mot de passe à l'email
+  sendResetLink(email: string): Observable<{
+    message: string;
+    status?: boolean;
+  }> {
+    return this.http.post<{
+      message: string;
+      status?: boolean;
+    }>(`${this.apiUrl}/forgot`, { email }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
+    // Réinitialiser le mot de passe
+  resetPassword(data: {
+    email: string;
+    otp: string;
+    password: string;
+    password_confirmation: string;
+  }): Observable<{
+    message: string;
+    status?: boolean;
+  }> {
+    return this.http.post<{
+      message: string;
+      status?: boolean;
+    }>(`${this.apiUrl}/reset`, data).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
 }
