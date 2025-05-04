@@ -27,14 +27,6 @@ const routes: Routes = [
         canActivate: [LoginGuard]
       },
       {
-        path: 'typography',
-        loadComponent: () => import('./demo/component/basic-component/color/color.component').then((c) => c.ColorComponent)
-      },
-      {
-        path: 'color',
-        loadComponent: () => import('./demo/component/basic-component/typography/typography.component').then((c) => c.TypographyComponent)
-      },
-      {
         path: 'sample-page',
         loadComponent: () => import('./demo/others/sample-page/sample-page.component').then((c) => c.SamplePageComponent),
         canActivate: [LoginGuard]
