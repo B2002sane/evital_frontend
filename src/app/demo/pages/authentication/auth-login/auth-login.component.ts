@@ -6,6 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { interval, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { LoginService } from '../../../../service/login.service';
+import { EchoService } from 'src/app/service/echo.service';
+
 
 
 
@@ -35,6 +37,11 @@ forgotEmailError: string = '';
 resetMessage: string = '';
 resetSuccess: boolean = false;
 
+
+
+
+
+
   // Variables pour le blocage après tentatives échouées
   failedAttempts: number = 0;
   isLocked: boolean = false;
@@ -45,7 +52,9 @@ resetSuccess: boolean = false;
   constructor(
     public router: Router,
     public loginService: LoginService,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    //public echoService: EchoService,
+    
   ) {
     // Restaurer l'état de blocage depuis le localStorage si disponible
     this.restoreLockState();
@@ -55,6 +64,11 @@ resetSuccess: boolean = false;
       console.log('UID reçu:', uid);
       this.updateFormWithRfidData(uid);
     });
+
+
+
+
+
   }
 
   // Mettre à jour les champs du formulaire avec les données RFID
@@ -572,5 +586,7 @@ closeForgotPasswordForm() {
   this.newPasswordError = '';
   this.confirmPasswordError = '';
 }
+
+
 
 }
