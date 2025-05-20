@@ -46,7 +46,7 @@ export interface Utilisateur {
   providedIn: 'root'
 })
 export class UtilisateurService {
-  private apiUrl = 'http://localhost:8000/api/utilisateurs';
+  private apiUrl =  'https://evital-sante-1.onrender.com/api/utilisateurs';          //'http://localhost:8000/api/utilisateurs';
 
   constructor(private http: HttpClient) {}
 

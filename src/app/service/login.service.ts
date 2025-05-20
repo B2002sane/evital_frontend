@@ -17,7 +17,7 @@ import { io, Socket } from 'socket.io-client';
   providedIn: 'root'
 })
 export class LoginService {
-  private apiUrl = 'http://localhost:8000/api'; // Remplacez par l'URL de votre API
+  private apiUrl =   'https://evital-sante-1.onrender.com/api'; // 'http://localhost:8000/api' // Remplacez par l'URL de votre API
   public socket: Socket;
 
   private currentUserSubject = new BehaviorSubject<{

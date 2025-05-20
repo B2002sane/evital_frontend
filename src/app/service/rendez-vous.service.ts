@@ -38,7 +38,7 @@ export interface RendezVous {
   providedIn: 'root',
 })
 export class RendezVousService {
-  private apiUrl = 'http://localhost:8000/api/rendez-vous';
+  private apiUrl =  'https://evital-sante-1.onrender.com/api/rendez-vous';   //'http://localhost:8000/api/rendez-vous';
 
   constructor(private http: HttpClient) {}
 
