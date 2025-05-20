@@ -52,7 +52,7 @@ interface StatutOccupation {
   providedIn: 'root'
 })
 export class GestionChambreService {
-  private apiUrl = 'http://localhost:8000/api'; 
+  private apiUrl =  'https://evital-sante-1.onrender.com/api';  //'http://localhost:8000/api'; 
   constructor(private http: HttpClient) {}
 
   // Récupérer toutes les chambres (avec filtres optionnels)

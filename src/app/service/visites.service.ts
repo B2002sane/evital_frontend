@@ -22,7 +22,7 @@ export interface Visite {
 })
 export class VisiteService {
   // Remplace cette URL par celle de ton backend si besoin
-  private apiUrl = 'http://localhost:8000/api/visites';
+  private apiUrl =  'https://evital-sante-1.onrender.com/api/visites'; //'http://localhost:8000/api/visites';
 
   constructor(private http: HttpClient) {}
 
