@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { interval, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { LoginService } from '../../../../service/login.service';
-import { EchoService } from 'src/app/service/echo.service';
+
 
 
 
@@ -53,7 +53,7 @@ resetSuccess: boolean = false;
     public router: Router,
     public loginService: LoginService,
     public activatedRoute: ActivatedRoute,
-    //public echoService: EchoService,
+    
     
   ) {
     // Restaurer l'état de blocage depuis le localStorage si disponible
